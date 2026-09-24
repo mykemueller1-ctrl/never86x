@@ -24,8 +24,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/try" className="text-[var(--muted)] hover:text-[var(--ink)]">
                 Try
               </Link>
-              <Link href="/try/desk" className="text-[var(--muted)] hover:text-[var(--ink)]">
-                Owner desk
+              <Link href="/pricing" className="text-[var(--muted)] hover:text-[var(--ink)]">
+                Pricing
+              </Link>
+              <Link href="/onboarding" className="text-[var(--muted)] hover:text-[var(--ink)]">
+                Start
               </Link>
               <Link
                 href="/seat"
@@ -40,7 +43,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="mt-16 border-t border-[var(--line)]">
           <div className="mx-auto flex max-w-5xl flex-wrap gap-4 px-4 py-6 text-sm text-[var(--muted)]">
             <Link href="/contact">Talk to Myke</Link>
+            <Link href="/support">Support</Link>
+            <Link href="/status">Status</Link>
             <Link href="/privacy">Privacy</Link>
+            <Link href="/terms">Terms</Link>
             <Link href="/email-data">Email data</Link>
             <span className="ml-auto">First owner seat free · No invented $</span>
           </div>
