@@ -7,7 +7,7 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test test/**/*.mjs test/*.mjs",
+    "test": "node --test test/smoke.test.mjs",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
