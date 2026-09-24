@@ -17,9 +17,29 @@ test("ship surfaces exist", () => {
     ".env.example",
     "docs/INCIDENT.md",
     "docs/SHIP-CHECKLIST.md",
+    "docs/email/welcome.md",
+    "docs/email/support-ack.md",
+    "src/lib/audit.ts",
+    "src/lib/rateLimit.ts",
   ]) {
     assert.equal(existsSync(p), true, `missing ${p}`);
   }
+});
+
+test("layout nav and footer links", () => {
+  const src = readFileSync("src/app/layout.tsx", "utf8");
+  assert.match(src, /href="\/pricing"/);
+  assert.match(src, /href="\/onboarding"[\s\S]*Start/);
+  assert.match(src, /href="\/support"/);
+  assert.match(src, /href="\/status"/);
+  assert.match(src, /href="\/terms"/);
+});
+
+test("pricing page does not invent a dollar figure", () => {
+  const src = readFileSync("src/app/pricing/page.tsx", "utf8");
+  assert.equal(/\$\d/.test(src), false);
+  assert.match(src, /Free/);
+  assert.match(src, /TBD/);
 });
 
 test("checkout fails closed without stripe narrative", () => {
