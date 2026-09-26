@@ -4,19 +4,19 @@ import { Honesty } from "@/components/Honesty";
 export default function CheckPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-16 text-center">
-      <Honesty kind="Missing" />
-      <h1 className="mt-4 text-2xl font-bold">Private check — sign in first</h1>
+      <Honesty kind="Sample" />
+      <h1 className="mt-4 text-2xl font-bold">Invoice check — public sample</h1>
       <p className="mt-2 text-sm text-[var(--muted)]">
-        Your private /invoices check lives in your owner seat. No fake Connect. No invented dollars.
+        See the full invoice workflow without signing in. Sample documents, real comparison logic.
       </p>
       <Link
-        href="/seat"
+        href="/try/desk"
         className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
       >
-        Go to Sign in
+        Run the sample invoice check
       </Link>
       <p className="mt-4 text-xs text-[var(--muted)]">
-        Meanwhile try the public sample on <Link href="/try" className="underline">/try</Link>.
+        Private restaurant records are added only after a separate owner sign-in.
       </p>
     </div>
   );
