@@ -151,25 +151,6 @@ export function OneSeat() {
         {METHOD}. For {WHO}.
       </p>
 
-      <section className="mt-6 rounded-2xl border border-[var(--line)] p-4">
-        <div className="flex items-center justify-between gap-2">
-          <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">FICTIONAL SAMPLE</p>
-          <Honesty kind="Sample" />
-        </div>
-        <p className="mt-2 text-sm text-[var(--muted)]">Latest case</p>
-        <p className="text-3xl font-bold">{formatMoney(SAMPLE_MOZZ.latest)}</p>
-        <p className="mt-1 text-sm font-semibold">
-          {formatDelta(SAMPLE_MOZZ.delta)} per case{percent ? ` · +${percent}` : ""}
-        </p>
-        <div className="mt-3">
-          <Legend />
-        </div>
-        <p className="mt-3 text-sm">
-          This mozzarella sample is fictional. Matching papers you paste are read on this phone. One missing price stays Missing.
-        </p>
-        <p className="mt-3 rounded-xl bg-[var(--accent-soft)] px-3 py-3 text-sm font-semibold">{move}</p>
-      </section>
-
       <div className="mt-4">
         {email ? (
           <form className="rounded-2xl border border-[var(--line)] p-4" onSubmit={saveProfile}>
@@ -212,6 +193,25 @@ export function OneSeat() {
           </button>
         )}
       </div>
+
+      <section className="mt-6 rounded-2xl border border-[var(--line)] p-4">
+        <div className="flex items-center justify-between gap-2">
+          <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">FICTIONAL SAMPLE</p>
+          <Honesty kind="Sample" />
+        </div>
+        <p className="mt-2 text-sm text-[var(--muted)]">Latest case</p>
+        <p className="text-3xl font-bold">{formatMoney(SAMPLE_MOZZ.latest)}</p>
+        <p className="mt-1 text-sm font-semibold">
+          {formatDelta(SAMPLE_MOZZ.delta)} per case{percent ? ` · +${percent}` : ""}
+        </p>
+        <div className="mt-3">
+          <Legend />
+        </div>
+        <p className="mt-3 text-sm">
+          This mozzarella sample is fictional. Matching papers you paste are read on this phone. One missing price stays Missing.
+        </p>
+        <p className="mt-3 rounded-xl bg-[var(--accent-soft)] px-3 py-3 text-sm font-semibold">{move}</p>
+      </section>
 
       <section id="invoices" className="mt-8">
         <h2 className="text-2xl font-bold">{INVOICE_Q}</h2>
