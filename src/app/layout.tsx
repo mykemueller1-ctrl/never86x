@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
-import { A16Z, BRAND, FOUNDER, HEADLINE, INVOICE_Q, OFFER, PLATE_Q, PRODUCT, SHIFT_Q, SITE, TAGLINE } from "@/lib/brand";
+import { A16Z, BRAND, FOUNDER, INVOICE_Q, OFFER, PLATE_Q, PRODUCT, SHARE_DESCRIPTION, SHARE_TITLE, SHIFT_Q, SITE } from "@/lib/brand";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE),
@@ -12,15 +12,15 @@ export const metadata: Metadata = {
   description: A16Z,
   alternates: { canonical: SITE },
   openGraph: {
-    title: HEADLINE,
-    description: TAGLINE,
+    title: SHARE_TITLE,
+    description: SHARE_DESCRIPTION,
     url: SITE,
     siteName: BRAND,
   },
   twitter: {
     card: "summary_large_image",
-    title: HEADLINE,
-    description: TAGLINE,
+    title: SHARE_TITLE,
+    description: SHARE_DESCRIPTION,
   },
 };
 

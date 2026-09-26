@@ -1,9 +1,9 @@
 import { Suspense } from "react";
 import { OneSeat } from "@/components/OneSeat";
 import { ScreenStatus } from "@/components/ScreenStatus";
-import { HEADLINE, PRODUCT, TAGLINE, pageMeta } from "@/lib/brand";
+import { SHARE_DESCRIPTION, SHARE_TITLE, pageMeta } from "@/lib/brand";
 
-export const metadata = pageMeta("/seat", PRODUCT, `${HEADLINE} ${TAGLINE}`);
+export const metadata = pageMeta("/seat", SHARE_TITLE, SHARE_DESCRIPTION);
 
 export default function SeatPage() {
   return (

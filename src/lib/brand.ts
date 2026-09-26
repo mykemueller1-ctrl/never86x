@@ -10,6 +10,10 @@ export const SITE = "https://never86.ai";
 
 export const HEADLINE = "You run the restaurant. Let's check the numbers.";
 export const TAGLINE = "No CFO. No back office. Still your numbers.";
+/** X / Open Graph card. Same strings on twitter:* and og:*. */
+export const SHARE_TITLE = "You run the restaurant. Let's watch the costs.";
+export const SHARE_LINE = "Your first owner seat is free. No card. No POS.";
+export const SHARE_DESCRIPTION = `${SHARE_LINE} For independent restaurants with 1–5 units.`;
 export const ONE_SENTENCE =
   "Drop last week's papers and get one next move to own, proven with your own numbers.";
 export const YC = "Invoice & labor checks for indie restaurants";

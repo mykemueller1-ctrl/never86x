@@ -9,6 +9,10 @@ const BANNED = [
   { name: "Command Center", re: /Command Center/i },
   { name: "Community logic", re: /Community logic/i },
   { name: "seat price", re: /\$(?:99|129|199|399|499)\b/ },
+  { name: "Month-end card", re: /Month-end is too late/i },
+  { name: "DoorDash card", re: /\bDoorDash\b/ },
+  { name: "operating intelligence", re: /Restaurant operating intelligence/i },
+  { name: "multi-unit operators", re: /multi-unit operators/i },
 ];
 
 const REQUIRED = [
@@ -16,6 +20,8 @@ const REQUIRED = [
   "One Seat",
   "Action Shift",
   "You run the restaurant. Let's check the numbers.",
+  "You run the restaurant. Let's watch the costs.",
+  "Your first owner seat is free. No card. No POS.",
   "No CFO. No back office. Still your numbers.",
   "What went up on my invoice?",
   "Why did the shift run over?",
@@ -69,4 +75,16 @@ test("the brand sheet is the copy on the pages people see", () => {
   assert.match(readFileSync("src/components/ResultCard.tsx", "utf8"), /shareUrl/);
   assert.equal(/\$\d/.test(readFileSync("src/app/pricing/page.tsx", "utf8")), false);
   assert.match(readFileSync("src/lib/brand.ts", "utf8"), /https:\/\/never86\.ai/);
+  const layout = readFileSync("src/app/layout.tsx", "utf8");
+  assert.match(layout, /openGraph:[\s\S]*SHARE_TITLE[\s\S]*SHARE_DESCRIPTION/);
+  assert.match(layout, /twitter:[\s\S]*SHARE_TITLE[\s\S]*SHARE_DESCRIPTION/);
+  const seat = readFileSync("src/app/seat/page.tsx", "utf8");
+  assert.match(seat, /SHARE_TITLE/);
+  assert.match(seat, /SHARE_DESCRIPTION/);
+  const card = readFileSync("src/lib/ogCard.tsx", "utf8");
+  assert.match(card, /SHARE_TITLE/);
+  assert.match(card, /SHARE_LINE/);
+  assert.equal(/\$\d/.test(card), false);
+  assert.match(readFileSync("src/app/opengraph-image.tsx", "utf8"), /shareCard/);
+  assert.match(readFileSync("src/app/seat/opengraph-image.tsx", "utf8"), /shareCard/);
 });
