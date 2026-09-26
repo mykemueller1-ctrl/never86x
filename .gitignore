@@ -46,3 +46,4 @@ public/pdfjs/
 
 # copied from tesseract.js on install; not source
 public/tesseract/
+eng.traineddata
