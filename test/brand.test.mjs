@@ -58,7 +58,7 @@ test("the brand sheet is the copy on the pages people see", () => {
   for (const line of REQUIRED) {
     assert.equal(joined.includes(line), true, `missing ${line}`);
   }
-  const home = readFileSync("src/app/page.tsx", "utf8");
+  const home = readFileSync("src/components/OneSeat.tsx", "utf8");
   for (const name of ["HEADLINE", "TAGLINE", "ONE_SENTENCE", "INVOICE_Q", "SHIFT_Q", "PLATE_Q"]) {
     assert.match(home, new RegExp(`\\b${name}\\b`));
   }

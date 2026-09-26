@@ -1,16 +1,14 @@
-import { OFFER, PRODUCT, pageMeta } from "@/lib/brand";
-import { PhoneSeat } from "@/components/PhoneSeat";
+import { Suspense } from "react";
+import { OneSeat } from "@/components/OneSeat";
+import { ScreenStatus } from "@/components/ScreenStatus";
+import { HEADLINE, PRODUCT, TAGLINE, pageMeta } from "@/lib/brand";
 
-const title = PRODUCT;
-const description = `${OFFER} History stays on this phone.`;
+export const metadata = pageMeta("/seat", PRODUCT, `${HEADLINE} ${TAGLINE}`);
 
-export const metadata = pageMeta("/seat", title, description);
-
-export default async function SeatPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ start?: string }>;
-}) {
-  const { start } = await searchParams;
-  return <PhoneSeat start={start ?? ""} />;
+export default function SeatPage() {
+  return (
+    <Suspense fallback={<ScreenStatus kind="loading">Opening One Seat…</ScreenStatus>}>
+      <OneSeat />
+    </Suspense>
+  );
 }

@@ -7,6 +7,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
 import { SHIFT_Q } from "@/lib/brand";
+import { readDraft, rememberCheck, writeDraft } from "@/lib/draft";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust, tighterTrust } from "@/lib/photoHonesty";
 import { checkLabor } from "@/lib/parseLabor";
@@ -30,8 +31,16 @@ export function LaborCheck() {
       setSchedule(SAMPLE_SCHEDULE_PASTE);
       setClock(SAMPLE_CLOCK_PASTE);
       setRan(true);
+      return;
     }
+    const draft = readDraft();
+    if (draft.schedule) setSchedule(draft.schedule);
+    if (draft.clock) setClock(draft.clock);
   }, [params]);
+
+  useEffect(() => {
+    writeDraft({ schedule, clock });
+  }, [schedule, clock]);
 
   const reading = planned.reading || punched.reading;
   const sample =
@@ -40,6 +49,17 @@ export function LaborCheck() {
   const result = raw
     ? applyPhotoTrust(raw, tighterTrust(planned.trustFor(schedule), punched.trustFor(clock)))
     : null;
+
+  const laborNote = result?.rows.map((row) => `${row.label}:${row.honesty}`).join("|") ?? "";
+  useEffect(() => {
+    if (!ran || !result?.rows.length) return;
+    rememberCheck({
+      tool: "labor",
+      headline: result.headline,
+      rows: result.rows.map((row) => ({ label: row.label, value: row.value, honesty: row.honesty })),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [laborNote, ran]);
   const readError = planned.error || punched.error;
 
   function compare() {

@@ -13,7 +13,7 @@ const TOOL_HREF = {
   labor: "/check/labor",
 } as const;
 
-export function PhoneSeat({ start }: { start: string }) {
+export function PhoneSeat({ start, compact = false }: { start: string; compact?: boolean }) {
   const [cards, setCards] = useState<SavedCard[]>([]);
   const [place, setPlace] = useState("");
   const [ready, setReady] = useState(false);
@@ -33,8 +33,14 @@ export function PhoneSeat({ start }: { start: string }) {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">NO LOGIN · {focus.toUpperCase()}</p>
-      <h1 className="mt-2 text-3xl font-bold leading-tight">History stays on this phone.</h1>
+      {compact ? null : (
+        <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">NO LOGIN · {focus.toUpperCase()}</p>
+      )}
+      {compact ? (
+        <h2 className="mt-8 text-2xl font-bold">History stays on this phone.</h2>
+      ) : (
+        <h1 className="mt-2 text-3xl font-bold leading-tight">History stays on this phone.</h1>
+      )}
       <p className="mt-2 text-[var(--muted)]">
         {OFFER} Keeping a card stores it in this browser only. Nothing is uploaded.
       </p>

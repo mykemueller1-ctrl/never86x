@@ -7,6 +7,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
 import { PLATE_Q } from "@/lib/brand";
+import { readDraft, rememberCheck, writeDraft } from "@/lib/draft";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust } from "@/lib/photoHonesty";
 import { checkRecipe } from "@/lib/parseRecipe";
@@ -27,13 +28,31 @@ export function MenuCheck() {
     if (params.get("sample") === "1") {
       setRecipe(SAMPLE_RECIPE_PASTE);
       setRan(true);
+      return;
     }
+    const draft = readDraft();
+    if (draft.recipe) setRecipe(draft.recipe);
   }, [params]);
+
+  useEffect(() => {
+    writeDraft({ recipe });
+  }, [recipe]);
 
   const sample = papersMatch(recipe, SAMPLE_RECIPE_PASTE);
   const raw = ran ? checkRecipe(recipe) : null;
   const result = raw ? applyPhotoTrust(raw, slot.trustFor(recipe)) : null;
   const readError = slot.error;
+
+  const plateNote = result?.rows.map((row) => `${row.label}:${row.honesty}`).join("|") ?? "";
+  useEffect(() => {
+    if (!ran || !result?.rows.length) return;
+    rememberCheck({
+      tool: "plate",
+      headline: result.headline,
+      rows: result.rows.map((row) => ({ label: row.label, value: row.value, honesty: row.honesty })),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plateNote, ran]);
 
   function cost() {
     if (slot.reading) return;

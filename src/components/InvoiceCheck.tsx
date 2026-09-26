@@ -7,6 +7,7 @@ import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
 import { INVOICE_Q } from "@/lib/brand";
+import { readDraft, rememberCheck, writeDraft } from "@/lib/draft";
 import { checkInvoices } from "@/lib/parseInvoice";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust, tighterTrust } from "@/lib/photoHonesty";
@@ -34,8 +35,16 @@ export function InvoiceCheck() {
       setEarlier(SAMPLE_INVOICE_EARLIER);
       setLater(SAMPLE_INVOICE_LATER);
       setRan(true);
+      return;
     }
+    const draft = readDraft();
+    if (draft.earlier) setEarlier(draft.earlier);
+    if (draft.later) setLater(draft.later);
   }, [params]);
+
+  useEffect(() => {
+    writeDraft({ earlier, later });
+  }, [earlier, later]);
 
   const reading = older.reading || newer.reading;
   const sample =
@@ -45,6 +54,18 @@ export function InvoiceCheck() {
     ? applyPhotoTrust(raw, tighterTrust(older.trustFor(earlier), newer.trustFor(later)))
     : null;
   const readError = older.error || newer.error;
+
+  const invoiceNote = result?.rows.map((row) => `${row.label}:${row.honesty}`).join("|") ?? "";
+  useEffect(() => {
+    if (!ran || !result?.rows.length) return;
+    rememberCheck({
+      tool: "invoices",
+      headline: result.headline,
+      rows: result.rows.map((row) => ({ label: row.label, value: row.value, honesty: row.honesty })),
+    });
+    // invoiceNote is the stable signature. result is read from this render when it changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [invoiceNote, ran]);
 
   function compare() {
     if (reading) return;
