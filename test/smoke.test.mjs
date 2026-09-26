@@ -31,5 +31,31 @@ test("checkout fails closed without stripe narrative", () => {
 test("honesty component exposes required labels", () => {
   const src = readFileSync("src/components/Honesty.tsx", "utf8");
   assert.match(src, /Verified/);
+  assert.match(src, /Estimated/);
   assert.match(src, /Missing/);
+  assert.match(src, /Sample/);
+});
+
+test("signed-out doors stay on-site in sample mode", () => {
+  const files = [
+    "src/app/page.tsx",
+    "src/app/try/page.tsx",
+    "src/app/try/watch/page.tsx",
+    "src/app/try/recipes/page.tsx",
+    "src/app/try/labor/page.tsx",
+    "src/app/try/desk/page.tsx",
+    "src/app/check/invoices/page.tsx",
+    "src/app/check/menu/page.tsx",
+    "src/app/check/labor/page.tsx",
+    "src/app/seat/page.tsx",
+    "src/components/SignInToSave.tsx",
+    "src/components/SamplePanels.tsx",
+  ];
+  const joined = files.map((p) => readFileSync(p, "utf8")).join("\n");
+  assert.equal(joined.includes("auth.openai.com"), false);
+  assert.equal(joined.includes("signin-with-chatgpt"), false);
+  assert.match(joined, /Sample mode/);
+  assert.match(joined, /Sign in to save your own invoices, free, no card/);
+  assert.match(readFileSync("src/app/try/watch/page.tsx", "utf8"), /href="\/check\/invoices"/);
+  assert.match(readFileSync("src/app/try/recipes/page.tsx", "utf8"), /href="\/check\/menu"/);
 });

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import { SignInToSave } from "@/components/SignInToSave";
 import { SAMPLE_MOZZ, SAMPLE_INVOICE_EXTRACT } from "@/lib/sample";
 
 const nav = [
@@ -31,7 +32,7 @@ export default function DeskPage() {
           Example restaurant · Fictional records
         </p>
         <Link href="/seat" className="mt-2 block px-2 text-xs text-[var(--accent)]">
-          Open my private workspace →
+          Open the sample seat →
         </Link>
       </aside>
 
@@ -45,16 +46,11 @@ export default function DeskPage() {
           </div>
           <div className="flex items-center gap-2">
             <Honesty kind="Sample" />
-            <Link
-              href="/seat"
-              className="rounded-lg bg-[var(--accent)] px-3 py-1.5 text-sm font-semibold text-white"
-            >
-              + Add my records
-            </Link>
+            <SignInToSave label="Add my records" />
           </div>
         </div>
 
-        <article className="mt-6 rounded-2xl border border-[var(--line)] bg-white p-5">
+        <article id="invoices" className="mt-6 rounded-2xl border border-[var(--line)] bg-white p-5">
           <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">
             INVOICE · LABOR · MENU
           </p>
@@ -86,25 +82,15 @@ export default function DeskPage() {
             → ${SAMPLE_INVOICE_EXTRACT.lineItems[0].unitPrice} (+${SAMPLE_INVOICE_EXTRACT.priorMatch.delta}).{" "}
             <Honesty kind="Sample" />
           </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button
-              type="button"
-              className="rounded-xl bg-[var(--accent)] px-4 py-3 text-sm font-bold text-white"
+          <div className="mt-4 flex flex-wrap items-start gap-2">
+            <SignInToSave label="Looks right — save this" />
+            <a
+              href="#invoices"
+              className="mt-4 inline-block rounded-xl border border-[var(--line)] px-4 py-3 text-sm font-semibold"
             >
-              Looks right
-            </button>
-            <button
-              type="button"
-              className="rounded-xl border border-[var(--line)] px-4 py-3 text-sm font-semibold"
-            >
-              Retake photo
-            </button>
-            <Link
-              href="/seat"
-              className="rounded-xl border border-[var(--line)] px-4 py-3 text-sm font-semibold"
-            >
-              Find my papers (Drive)
-            </Link>
+              See the sample ticket again
+            </a>
+            <SignInToSave label="Upload my own papers" />
           </div>
           <p className="mt-2 text-xs text-[var(--muted)]">{SAMPLE_INVOICE_EXTRACT.railPrompt}</p>
         </article>

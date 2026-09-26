@@ -1,22 +1,20 @@
 import Link from "next/link";
-import { Honesty } from "@/components/Honesty";
+import { SampleInvoice, SampleModeBanner } from "@/components/SamplePanels";
 
-export default function CheckPage() {
+export const metadata = { title: "Invoice check — Sample mode" };
+
+export default function CheckInvoicesPage() {
   return (
-    <div className="mx-auto max-w-lg px-4 py-16 text-center">
-      <Honesty kind="Sample" />
-      <h1 className="mt-4 text-2xl font-bold">Invoice check — public sample</h1>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        See the full invoice workflow without signing in. Sample documents, real comparison logic.
+    <div className="mx-auto max-w-2xl space-y-4 px-4 py-10">
+      <SampleModeBanner />
+      <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">
+        CHECK · INVOICES
       </p>
-      <Link
-        href="/try/desk"
-        className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
-      >
-        Run the sample invoice check
-      </Link>
-      <p className="mt-4 text-xs text-[var(--muted)]">
-        Private restaurant records are added only after a separate owner sign-in.
+      <SampleInvoice />
+      <p className="text-sm">
+        <Link href="/try/desk" className="text-[var(--accent)]">
+          See this on the sample owner desk →
+        </Link>
       </p>
     </div>
   );
