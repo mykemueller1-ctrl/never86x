@@ -29,6 +29,7 @@ const BANNED = [
   "SEAT_DEV_SHOW_CODE",
   "SEAT_FROM_EMAIL",
   "ADMIN_EMAILS",
+  "OWNER_EMAILS",
   "/portal",
   "signin-with-chatgpt",
   "auth.openai.com",

@@ -10,6 +10,7 @@ import { INVOICE_Q } from "@/lib/brand";
 import { readDraft, rememberCheck, writeDraft } from "@/lib/draft";
 import { checkInvoices } from "@/lib/parseInvoice";
 import { loadPlace } from "@/lib/history";
+import { trackSeat } from "@/lib/track";
 import { applyPhotoTrust, tighterTrust } from "@/lib/photoHonesty";
 import {
   SAMPLE_INVOICE_EARLIER,
@@ -32,6 +33,7 @@ export function InvoiceCheck() {
   useEffect(() => {
     setPlace(loadPlace());
     if (params.get("sample") === "1") {
+      trackSeat("check_start", "sample");
       setEarlier(SAMPLE_INVOICE_EARLIER);
       setLater(SAMPLE_INVOICE_LATER);
       setRan(true);
@@ -63,9 +65,10 @@ export function InvoiceCheck() {
       headline: result.headline,
       rows: result.rows.map((row) => ({ label: row.label, value: row.value, honesty: row.honesty })),
     });
+    trackSeat("check_complete", sample ? "sample" : "own");
     // invoiceNote is the stable signature. result is read from this render when it changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [invoiceNote, ran]);
+  }, [invoiceNote, ran, sample]);
 
   function compare() {
     if (reading) return;
@@ -80,6 +83,7 @@ export function InvoiceCheck() {
       return;
     }
     setFormError(null);
+    trackSeat("check_start", "own");
     setRan(true);
   }
 
@@ -168,6 +172,7 @@ export function InvoiceCheck() {
             setEarlier(SAMPLE_INVOICE_EARLIER);
             setLater(SAMPLE_INVOICE_LATER);
             setFormError(null);
+            trackSeat("check_start", "sample");
             setRan(true);
           }}
           disabled={reading}

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
+import { readOrCreateVisitor, recordEvent, setVisitorCookie } from "@/lib/analytics";
+import { userAgentClass } from "@/lib/embedded";
 import { startEmailLogin } from "@/lib/loginFlow";
+import { signupSource } from "@/lib/seatAuth";
 import { rateLimit } from "@/lib/rateLimit";
 
 export const runtime = "nodejs";
@@ -25,11 +28,23 @@ export async function POST(req: NextRequest) {
     origin: req.nextUrl.origin,
   });
   if (!started.ok) return NextResponse.json(started, { status: 400 });
-  return NextResponse.json({
+  const visitor = readOrCreateVisitor(req);
+  const source = signupSource(body.utm ? String(body.utm) : null, body.ref ? String(body.ref) : null);
+  await recordEvent({
+    name: "login_attempt",
+    visitorId: visitor.id,
+    email: started.email,
+    source,
+    uaClass: userAgentClass(req.headers.get("user-agent") || ""),
+    ip,
+  });
+  const res = NextResponse.json({
     ok: true,
     sent: started.sent,
     email: started.email,
     ...(started.devCode ? { devCode: started.devCode } : {}),
     reason: started.sent ? null : "The sign-in email is not connected on this preview. Your address was saved.",
   });
+  if (visitor.fresh) setVisitorCookie(res, visitor.id);
+  return res;
 }

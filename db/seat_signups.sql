@@ -21,3 +21,16 @@ CREATE TABLE IF NOT EXISTS seat_login_codes (
   expires_at timestamptz NOT NULL,
   consumed_at timestamptz
 );
+
+CREATE TABLE IF NOT EXISTS seat_events (
+  id text PRIMARY KEY,
+  name text NOT NULL,
+  visitor_id text NOT NULL,
+  email text,
+  source text NOT NULL,
+  ua_class text NOT NULL,
+  detail text,
+  test boolean NOT NULL DEFAULT false,
+  ip_hash text,
+  created_at timestamptz NOT NULL
+);

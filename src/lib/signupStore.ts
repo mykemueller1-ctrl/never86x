@@ -30,6 +30,7 @@ export type IssuedLogin = {
   token: string;
   code: string;
   unsubscribeToken: string;
+  fresh: boolean;
 };
 
 const memory = {
@@ -86,18 +87,23 @@ export async function saveSignup(input: {
     consumedAt: null,
     unsubscribeToken: unsub,
   });
-  return { signup: row, token, code, unsubscribeToken: unsub };
+  return { signup: row, token, code, unsubscribeToken: unsub, fresh: !existing };
 }
 
-function take(match: (row: LoginRow) => boolean, now: number, secret: string): { signup: SignupRow; draft: SeatDraft } | null {
+function take(
+  match: (row: LoginRow) => boolean,
+  now: number,
+  secret: string,
+): { signup: SignupRow; draft: SeatDraft; firstSeat: boolean } | null {
   const row = [...memory.logins].reverse().find((item) => !item.consumedAt && item.expiresAt > now && match(item));
   if (!row) return null;
   row.consumedAt = now;
   const signup = [...memory.signups.values()].find((item) => item.id === row.signupId);
   if (!signup || signup.unsubscribedAt) return null;
+  const firstSeat = !signup.activatedAt;
   signup.activatedAt = new Date(now).toISOString();
   void secret;
-  return { signup, draft: row.draft };
+  return { signup, draft: row.draft, firstSeat };
 }
 
 export async function consumeToken(token: string, secret: string, now = Date.now()) {

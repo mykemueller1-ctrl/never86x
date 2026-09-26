@@ -6,3 +6,10 @@ export function isEmbeddedWebview(userAgent: string): boolean {
 export function showGoogleSignIn(userAgent: string, clientId: string | undefined): boolean {
   return Boolean(clientId && clientId.trim()) && !isEmbeddedWebview(userAgent);
 }
+
+/** Coarse device class for first-party counts. X's in-app browser wins over phone. */
+export function userAgentClass(userAgent: string): "x_in_app" | "mobile" | "desktop" {
+  if (isEmbeddedWebview(userAgent)) return "x_in_app";
+  if (/Mobile|Android|iPhone|iPad/i.test(userAgent)) return "mobile";
+  return "desktop";
+}

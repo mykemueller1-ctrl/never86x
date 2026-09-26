@@ -70,8 +70,8 @@ button:disabled {
 .badge-missing { background: #fef2f2; color: var(--miss); }
 .badge-sample { background: var(--accent-soft); color: var(--accent); }
 
-body:has([data-seat-shell]) > header,
-body:has([data-seat-shell]) > footer,
-body:has([data-seat-shell]) > .skip-link {
+body:has([data-app-shell]) > header,
+body:has([data-app-shell]) > footer,
+body:has([data-app-shell]) > .skip-link {
   display: none;
 }

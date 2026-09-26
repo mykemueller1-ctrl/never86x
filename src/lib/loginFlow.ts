@@ -21,7 +21,7 @@ export async function startEmailLogin(input: {
   origin: string;
   now?: number;
 }, send: (mail: { to: string; link: string; code: string; unsubscribe: string }) => Promise<{ sent: boolean }> = sendSeatMail): Promise<
-  | { ok: true; sent: boolean; email: string; devCode?: string }
+  | { ok: true; sent: boolean; email: string; fresh: boolean; devCode?: string }
   | { ok: false; reason: string }
 > {
   const secret = authSecret();
@@ -46,12 +46,13 @@ export async function startEmailLogin(input: {
     ok: true,
     sent: mailed.sent,
     email,
+    fresh: issued.fresh,
     ...(process.env.SEAT_DEV_SHOW_CODE === "1" ? { devCode: issued.code } : {}),
   };
 }
 
 export async function finishLogin(input: { token?: string; email?: string; code?: string; now?: number }): Promise<
-  | { ok: true; signup: SignupRow; draft: SeatDraft }
+  | { ok: true; signup: SignupRow; draft: SeatDraft; firstSeat: boolean }
   | { ok: false; reason: string }
 > {
   const secret = authSecret();
@@ -59,7 +60,7 @@ export async function finishLogin(input: { token?: string; email?: string; code?
   if (input.token) {
     const opened = await openToken(input.token, secret, input.now);
     if (!opened) return { ok: false, reason: "That link is used or expired. Ask for a new one." };
-    return { ok: true, signup: opened.signup, draft: opened.draft };
+    return { ok: true, signup: opened.signup, draft: opened.draft, firstSeat: opened.firstSeat };
   }
   const email = normalizeEmail(input.email || "");
   const code = (input.code || "").trim();
@@ -68,5 +69,5 @@ export async function finishLogin(input: { token?: string; email?: string; code?
   }
   const opened = await openCode(email, code, secret, input.now);
   if (!opened) return { ok: false, reason: "That code is used or expired. Ask for a new one." };
-  return { ok: true, signup: opened.signup, draft: opened.draft };
+  return { ok: true, signup: opened.signup, draft: opened.draft, firstSeat: opened.firstSeat };
 }

@@ -38,6 +38,19 @@ export function ensureSignupTables() {
         expires_at timestamptz NOT NULL,
         consumed_at timestamptz
       )`;
+    await sql`
+      CREATE TABLE IF NOT EXISTS seat_events (
+        id text PRIMARY KEY,
+        name text NOT NULL,
+        visitor_id text NOT NULL,
+        email text,
+        source text NOT NULL,
+        ua_class text NOT NULL,
+        detail text,
+        test boolean NOT NULL DEFAULT false,
+        ip_hash text,
+        created_at timestamptz NOT NULL
+      )`;
   })();
   return ready;
 }
@@ -120,6 +133,7 @@ export async function neonSaveSignup(input: {
     token,
     code,
     unsubscribeToken: unsub,
+    fresh: !prior,
   };
 }
 
@@ -143,6 +157,7 @@ async function consume(where: "token" | "code", email: string | null, hash: stri
   const signupRows = await sql`SELECT * FROM seat_signups WHERE email = ${String(login.email)} LIMIT 1`;
   const signup = signupRows[0] ? rowFrom(signupRows[0] as Record<string, unknown>) : null;
   if (!signup || signup.unsubscribedAt) return null;
+  const firstSeat = !signup.activatedAt;
   await sql`UPDATE seat_signups SET activated_at = ${stamp} WHERE email = ${signup.email}`;
   signup.activatedAt = stamp;
   let draft = blankDraft(null);
@@ -152,7 +167,7 @@ async function consume(where: "token" | "code", email: string | null, hash: stri
     draft = blankDraft(null);
   }
   void secret;
-  return { signup, draft };
+  return { signup, draft, firstSeat };
 }
 
 export async function neonConsumeToken(token: string, secret: string, now = Date.now()) {

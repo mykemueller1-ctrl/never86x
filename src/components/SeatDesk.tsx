@@ -7,6 +7,7 @@ import { Honesty } from "@/components/Honesty";
 import { SeatLogin } from "@/components/SeatLogin";
 import { AI_RULE, BRAND, METHOD, OFFER, SHARE_LINE } from "@/lib/brand";
 import { isEmbeddedWebview } from "@/lib/embedded";
+import { trackSeat } from "@/lib/track";
 import { formatDelta, formatMoney } from "@/lib/money";
 import {
   PRAIRIE_EARLIER,
@@ -40,7 +41,18 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
   const [question, setQuestion] = useState("");
   const [email, setEmail] = useState<string | null>(null);
   const [embedded, setEmbedded] = useState(false);
+  const [ownerLink, setOwnerLink] = useState(false);
   const source = params.get("utm_source") || params.get("ref") || "x";
+
+  useEffect(() => {
+    trackSeat("link_open");
+  }, []);
+
+  useEffect(() => {
+    if (view !== "invoices") return;
+    trackSeat("check_start", "sample");
+    trackSeat("check_complete", "sample");
+  }, [view]);
 
   useEffect(() => {
     setEmbedded(isEmbeddedWebview(navigator.userAgent));
@@ -49,6 +61,12 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
       .then((response) => response.json())
       .then((body) => {
         if (!ignore && body.email) setEmail(String(body.email));
+      })
+      .catch(() => undefined);
+    fetch("/api/owner/who")
+      .then((response) => response.json())
+      .then((body) => {
+        if (!ignore && body.owner) setOwnerLink(true);
       })
       .catch(() => undefined);
     return () => {
@@ -87,7 +105,7 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
                   : "Your owner desk.";
 
   return (
-    <div data-seat-shell className="min-h-screen bg-[#f3f0ea] text-[#1c1916] lg:grid lg:grid-cols-[232px_1fr]">
+    <div data-app-shell className="min-h-screen bg-[#f3f0ea] text-[#1c1916] lg:grid lg:grid-cols-[232px_1fr]">
       {navOpen ? (
         <button
           type="button"
@@ -141,6 +159,11 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
           <Link href="/contact" className="block py-1 text-[#cfc6bc] no-underline">
             Talk to Myke
           </Link>
+          {ownerLink ? (
+            <Link href="/owner/stats" className="block py-1 text-[#cfc6bc] no-underline">
+              Owner numbers
+            </Link>
+          ) : null}
           {email ? (
             <button type="button" className="block py-1 text-left" onClick={signOut}>
               Sign out
