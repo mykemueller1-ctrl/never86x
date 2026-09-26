@@ -1,23 +1,36 @@
 import Link from "next/link";
-import { Honesty } from "@/components/Honesty";
+import { Suspense } from "react";
+import { InvoiceCheck } from "@/components/InvoiceCheck";
+import { OpenCheck } from "@/components/OpenCheck";
+import { Legend } from "@/components/Legend";
+import { ScreenStatus } from "@/components/ScreenStatus";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q, TAGLINE, pageMeta } from "@/lib/brand";
 
-export default function CheckPage() {
+const description = `Paste two vendor invoices. Prices are read on this phone. Nothing is uploaded. ${TAGLINE}`;
+
+export const metadata = pageMeta("/check/invoices", INVOICE_Q, description);
+
+export default function CheckInvoicesPage() {
   return (
-    <div className="mx-auto max-w-lg px-4 py-16 text-center">
-      <Honesty kind="Sample" />
-      <h1 className="mt-4 text-2xl font-bold">Invoice check — public sample</h1>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        See the full invoice workflow without signing in. Sample documents, real comparison logic.
-      </p>
-      <Link
-        href="/try/desk"
-        className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
-      >
-        Run the sample invoice check
-      </Link>
-      <p className="mt-4 text-xs text-[var(--muted)]">
-        Private restaurant records are added only after a separate owner sign-in.
-      </p>
+    <div className="mx-auto max-w-lg px-4 py-6">
+      <h1 className="text-3xl font-bold leading-tight">{INVOICE_Q}</h1>
+      <p className="mt-2 text-[var(--muted)]">{description}</p>
+      <OpenCheck sampleHref="/check/invoices?sample=1" />
+      <Legend />
+      <Suspense fallback={<ScreenStatus kind="loading">Opening the invoice check…</ScreenStatus>}>
+        <InvoiceCheck />
+      </Suspense>
+      <nav className="mt-8 flex flex-wrap gap-4 text-sm">
+        <Link href="/check/labor" className="text-[var(--accent)]">
+          {SHIFT_Q}
+        </Link>
+        <Link href="/check/menu" className="text-[var(--accent)]">
+          {PLATE_Q}
+        </Link>
+        <Link href="/try/desk" className="text-[var(--accent)]">
+          Sample desk
+        </Link>
+      </nav>
     </div>
   );
 }

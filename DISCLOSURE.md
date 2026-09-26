@@ -7,6 +7,14 @@
 - **Source of truth UI:** live https://app.never86.app mirrored via `/mirror/screenshots` + `docs/SCREEN-MAP.md` + `docs/STRUCTURE-MAP.md`
 - Honesty labels: Verified / Estimated / Missing / Sample — **never invent dollars**
 
+## Free checks (this branch)
+- Invoice, plate, and labor math run in the browser. Files are not posted to an API.
+- PDF text uses pdf.js on the device. Photos use tesseract.js, loaded only after a photo is chosen. A photo price is Estimated, never Verified. Confidence under 40% shows no dollar. The picture is not uploaded. The reader files are copied locally on install.
+- Sample figures are the public walkthrough numbers (mozzarella $48 → $56, plate $4, labor $31 from the $20 and $18 rates).
+- Price comparison idea from `never86d-beta-ctap` (`getInvoicePriceComparison`) was reimplemented for two pasted invoices. The database function was not copied.
+- "No dollar unless both numbers are on the paper" follows the rule in `polar-reef-scarlet-crisp` `parseInvoice`, not the Iowa liquor parser.
+- "No labor dollars without a rate on the paper" follows `never86` `docs/COMMAND_DRILLDOWN.md`.
+
 ## Not in use / not claimed
 - **No SpaceX-derived APIs or hardware** are available or wired. None were invented.
 - **No CTO build** code copied into this tree

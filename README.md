@@ -2,12 +2,12 @@
 
 Independent scaffold. **Not** the CTO build. Source of truth: [app.never86.app](https://app.never86.app).
 
-## Operator flow (dead simple)
-1. Open home → pick **invoices**, **labor**, or **plate cost**
-2. Or tap **Try** / **Owner desk** for the sample (fictional docs, real math)
-3. Folders show **Missing / Estimated / Verified** — no invented $
-4. **Sign in** opens your private first owner seat (free) — auth Pending until Myke Yes
-5. Seats 2–3 paid later; tracking + email + health checks Pending
+## Operator flow
+1. Open the link. No account.
+2. Paste two invoices, a recipe, or the schedule and the clock. PDF text, CSV, and photos are read on the phone. A blurry photo is flagged and is not a price.
+3. Every number is **Verified**, **Estimated**, **Missing**, or **Sample**. A photo is never Verified. No invented dollars.
+4. Copy the card or keep it on this phone. History is not uploaded.
+5. Seats 2–3 and mailbox connect are not on.
 
 ## Run local
 ```bash

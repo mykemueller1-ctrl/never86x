@@ -5,7 +5,7 @@
   --muted: #5b6475;
   --line: #e6e8ee;
   --paper: #f7f7f5;
-  --accent: #e85d04;
+  --accent: #c2410c;
   --accent-soft: #fff0e6;
   --ok: #0f766e;
   --warn: #b45309;
@@ -16,6 +16,43 @@ body {
   color: var(--ink);
   background: #fff;
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+}
+
+input,
+textarea,
+select,
+button {
+  font-size: 16px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: 0.55;
+}
+
+.skip-link {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  z-index: 20;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background: var(--ink);
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  font-weight: 700;
+}
+
+.skip-link:focus {
+  transform: none;
 }
 
 .badge {
@@ -32,3 +69,9 @@ body {
 .badge-estimated { background: #fffbeb; color: var(--warn); }
 .badge-missing { background: #fef2f2; color: var(--miss); }
 .badge-sample { background: var(--accent-soft); color: var(--accent); }
+
+body:has([data-app-shell]) > header,
+body:has([data-app-shell]) > footer,
+body:has([data-app-shell]) > .skip-link {
+  display: none;
+}
