@@ -1,20 +1,21 @@
 import Link from "next/link";
-import { Honesty } from "@/components/Honesty";
+import { SampleLabor, SampleModeBanner } from "@/components/SamplePanels";
 
-export default function CheckPage() {
+export const metadata = { title: "Labor check — Sample mode" };
+
+export default function CheckLaborPage() {
   return (
-    <div className="mx-auto max-w-lg px-4 py-16 text-center">
-      <Honesty kind="Sample" />
-      <h1 className="mt-4 text-2xl font-bold">Labor check — public sample</h1>
-      <p className="mt-2 text-sm text-[var(--muted)]">
-        Compare a sample schedule and clock report without signing in.
+    <div className="mx-auto max-w-2xl space-y-4 px-4 py-10">
+      <SampleModeBanner />
+      <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">
+        CHECK · LABOR
       </p>
-      <Link
-        href="/try/labor"
-        className="mt-6 inline-block rounded-lg bg-[var(--accent)] px-4 py-2 text-sm font-semibold text-white"
-      >
-        Run the sample labor check
-      </Link>
+      <SampleLabor />
+      <p className="text-sm">
+        <Link href="/try/labor" className="text-[var(--accent)]">
+          Walk the sample labor ticket →
+        </Link>
+      </p>
     </div>
   );
 }
