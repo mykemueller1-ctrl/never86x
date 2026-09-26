@@ -91,6 +91,12 @@ test("public pages render without env names or internal routes", async () => {
   assert.match(invoices, /Try the example/);
   assert.doesNotMatch(invoices, /Welcome back/);
   assert.match(seat, /Email me this seat|Your free seat is on|Save this seat/);
+  assert.match(seat, /Prairie Route/);
+  assert.match(seat, /\$60\.00/);
+  assert.match(seat, /Verified/);
+  assert.match(seat, /Estimated/);
+  assert.match(seat, /Missing/);
+  assert.doesNotMatch(seat, /Sign in with your ChatGPT/);
   assert.match(login, /Email me a sign-in link/);
   assert.match(login, /href="\/check\/invoices"/);
   assert.doesNotMatch(login, /Welcome back/);
