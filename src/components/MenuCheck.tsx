@@ -32,7 +32,7 @@ export function MenuCheck() {
   const sample = papersMatch(recipe, SAMPLE_RECIPE_PASTE);
   const raw = ran ? checkRecipe(recipe) : null;
   const result = raw ? applyPhotoTrust(raw, slot.trustFor(recipe)) : null;
-  const photoError = slot.blocked(recipe) ? slot.error : null;
+  const readError = slot.error;
 
   function cost() {
     if (slot.reading) return;
@@ -84,15 +84,15 @@ export function MenuCheck() {
         {slot.reading ? (
           <ScreenStatus kind="loading">{slot.notice ?? "Reading on this phone. Nothing is uploaded."}</ScreenStatus>
         ) : null}
-        {!slot.reading && (formError || photoError) ? (
-          <ScreenStatus kind="error">{formError ?? photoError ?? ""}</ScreenStatus>
+        {!slot.reading && (formError || readError) ? (
+          <ScreenStatus kind="error">{formError || readError || ""}</ScreenStatus>
         ) : null}
-        {!slot.reading && !formError && !photoError && slot.notice ? (
+        {!slot.reading && !formError && !readError && slot.notice ? (
           <p role="status" className="mt-3 text-sm">
             {slot.notice}
           </p>
         ) : null}
-        {!slot.reading && !formError && !photoError && !ran ? (
+        {!slot.reading && !formError && !readError && !ran ? (
           <ScreenStatus kind="empty">Nothing costed yet. Paste the recipe, then cost the plate.</ScreenStatus>
         ) : null}
       </div>

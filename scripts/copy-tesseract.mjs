@@ -1,11 +1,4 @@
-import { copyFileSync, existsSync, mkdirSync, statSync, writeFileSync } from "node:fs";
-
-const coreFiles = [
-  "tesseract-core.wasm.js",
-  "tesseract-core-simd.wasm.js",
-  "tesseract-core-lstm.wasm.js",
-  "tesseract-core-simd-lstm.wasm.js",
-];
+import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync, writeFileSync } from "node:fs";
 
 const worker = "node_modules/tesseract.js/dist/worker.min.js";
 const coreDir = "public/tesseract/core";
@@ -20,13 +13,15 @@ if (!existsSync(worker)) {
 
 mkdirSync(coreDir, { recursive: true });
 copyFileSync(worker, "public/tesseract/worker.min.js");
-for (const name of coreFiles) {
-  const from = `node_modules/tesseract.js-core/${name}`;
-  if (!existsSync(from)) {
-    console.warn(`missing ${from}; photo reads will ask the owner to type.`);
-    process.exit(0);
-  }
-  copyFileSync(from, `${coreDir}/${name}`);
+const coreNames = readdirSync("node_modules/tesseract.js-core").filter((name) =>
+  name.startsWith("tesseract-core"),
+);
+if (coreNames.length < 4) {
+  console.warn("tesseract core builds are missing; photo reads will ask the owner to type.");
+  process.exit(0);
+}
+for (const name of coreNames) {
+  copyFileSync(`node_modules/tesseract.js-core/${name}`, `${coreDir}/${name}`);
 }
 
 mkdirSync(langDir, { recursive: true });

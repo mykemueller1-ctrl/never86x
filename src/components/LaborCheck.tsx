@@ -39,11 +39,7 @@ export function LaborCheck() {
   const result = raw
     ? applyPhotoTrust(raw, tighterTrust(planned.trustFor(schedule), punched.trustFor(clock)))
     : null;
-  const photoError = planned.blocked(schedule)
-    ? planned.error
-    : punched.blocked(clock)
-      ? punched.error
-      : null;
+  const readError = planned.error || punched.error;
 
   function compare() {
     if (reading) return;
@@ -117,15 +113,15 @@ export function LaborCheck() {
             {planned.notice ?? punched.notice ?? "Reading on this phone. Nothing is uploaded."}
           </ScreenStatus>
         ) : null}
-        {!reading && (formError || photoError) ? (
-          <ScreenStatus kind="error">{formError ?? photoError ?? ""}</ScreenStatus>
+        {!reading && (formError || readError) ? (
+          <ScreenStatus kind="error">{formError || readError || ""}</ScreenStatus>
         ) : null}
-        {!reading && !formError && !photoError && (planned.notice || punched.notice) ? (
+        {!reading && !formError && !readError && (planned.notice || punched.notice) ? (
           <p role="status" className="mt-3 text-sm">
             {[planned.notice, punched.notice].filter(Boolean).join(" ")}
           </p>
         ) : null}
-        {!reading && !formError && !photoError && !ran ? (
+        {!reading && !formError && !readError && !ran ? (
           <ScreenStatus kind="empty">Nothing compared yet. Paste the schedule and the clock-outs.</ScreenStatus>
         ) : null}
       </div>

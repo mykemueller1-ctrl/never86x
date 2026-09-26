@@ -43,11 +43,7 @@ export function InvoiceCheck() {
   const result = raw
     ? applyPhotoTrust(raw, tighterTrust(older.trustFor(earlier), newer.trustFor(later)))
     : null;
-  const photoError = older.blocked(earlier)
-    ? older.error
-    : newer.blocked(later)
-      ? newer.error
-      : null;
+  const readError = older.error || newer.error;
 
   function compare() {
     if (reading) return;
@@ -121,15 +117,15 @@ export function InvoiceCheck() {
             {older.notice ?? newer.notice ?? "Reading on this phone. Nothing is uploaded."}
           </ScreenStatus>
         ) : null}
-        {!reading && (formError || photoError) ? (
-          <ScreenStatus kind="error">{formError ?? photoError ?? ""}</ScreenStatus>
+        {!reading && (formError || readError) ? (
+          <ScreenStatus kind="error">{formError || readError || ""}</ScreenStatus>
         ) : null}
-        {!reading && !formError && !photoError && (older.notice || newer.notice) ? (
+        {!reading && !formError && !readError && (older.notice || newer.notice) ? (
           <p role="status" className="mt-3 text-sm">
             {[older.notice, newer.notice].filter(Boolean).join(" ")}
           </p>
         ) : null}
-        {!reading && !formError && !photoError && !ran ? (
+        {!reading && !formError && !readError && !ran ? (
           <ScreenStatus kind="empty">Nothing compared yet. Paste both invoices, then compare.</ScreenStatus>
         ) : null}
       </div>
