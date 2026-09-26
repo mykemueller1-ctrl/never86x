@@ -13,13 +13,16 @@ export default function TryWatchPage() {
         Walkthrough placeholder · open app.never86.app/try/watch for live film
       </div>
       <div className="mt-4 flex gap-3 text-sm">
-        <Link href="/check/invoices" className="font-semibold text-[var(--accent)]">
+        <Link href="/try/desk" className="font-semibold text-[var(--accent)]">
           Check my invoices →
         </Link>
         <Link href="/try" className="underline">
           Try the sample first
         </Link>
       </div>
+      <p className="mt-4 text-xs text-[var(--muted)]">
+        Public demo stays inside Never86. No OpenAI sign-in is required to explore the sample.
+      </p>
     </div>
   );
 }
