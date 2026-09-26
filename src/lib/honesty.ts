@@ -23,7 +23,7 @@ export function presentRows(rows: CheckRow[], sample: boolean): CheckRow[] {
   }));
 }
 
-export function rowsToCopy(title: string, rows: CheckRow[], sample: boolean): string {
+export function rowsToCopy(title: string, rows: CheckRow[], sample: boolean, share?: string): string {
   const head = sample
     ? `${title}\nSAMPLE — fictional papers, not your restaurant`
     : title;
@@ -33,5 +33,6 @@ export function rowsToCopy(title: string, rows: CheckRow[], sample: boolean): st
       return `${row.label}: ${row.value} (${row.honesty})${detail}`;
     })
     .join("\n");
-  return `${head}\n${body}\nRead on this phone. Nothing was uploaded.`;
+  const link = share ? `\n${share}` : "";
+  return `${head}\n${body}\nRead on this phone. Nothing was uploaded.${link}`;
 }

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Honesty } from "@/components/Honesty";
 import { ScreenStatus } from "@/components/ScreenStatus";
+import { INVOICE_Q, OFFER, PLATE_Q, PRODUCT, SHIFT_Q } from "@/lib/brand";
 import { clearCards, readHistory, removeCard, savePlace, type SavedCard } from "@/lib/history";
 
 const TOOL_HREF = {
@@ -28,15 +29,14 @@ export function PhoneSeat({ start }: { start: string }) {
   }, []);
 
   const focus =
-    start === "data" ? "What's missing" : start === "actions" ? "Kept cards" : "This phone";
+    start === "data" ? "What's missing" : start === "actions" ? "Kept cards" : PRODUCT;
 
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
       <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">NO LOGIN · {focus.toUpperCase()}</p>
       <h1 className="mt-2 text-3xl font-bold leading-tight">History stays on this phone.</h1>
       <p className="mt-2 text-[var(--muted)]">
-        The checks work with no account. Keeping a card stores it in this browser only. Nothing is
-        uploaded. A login to sync phones is not on — this page does not send you to ChatGPT.
+        {OFFER} Keeping a card stores it in this browser only. Nothing is uploaded.
       </p>
 
       <form
@@ -70,13 +70,13 @@ export function PhoneSeat({ start }: { start: string }) {
 
       <div className="mt-6 grid gap-2 text-base font-semibold">
         <Link href="/check/invoices" className="rounded-xl bg-[var(--accent)] px-4 py-3 text-center text-white">
-          Check invoices
-        </Link>
-        <Link href="/check/menu" className="rounded-xl border border-[var(--line)] px-4 py-3 text-center">
-          Cost a plate
+          {INVOICE_Q}
         </Link>
         <Link href="/check/labor" className="rounded-xl border border-[var(--line)] px-4 py-3 text-center">
-          Check labor
+          {SHIFT_Q}
+        </Link>
+        <Link href="/check/menu" className="rounded-xl border border-[var(--line)] px-4 py-3 text-center">
+          {PLATE_Q}
         </Link>
       </div>
 

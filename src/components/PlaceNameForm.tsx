@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ScreenStatus } from "@/components/ScreenStatus";
+import { INVOICE_Q } from "@/lib/brand";
 import { savePlace } from "@/lib/history";
 
 export function PlaceNameForm() {
@@ -44,7 +45,7 @@ export function PlaceNameForm() {
         ) : null}
       </div>
       <button type="submit" className="w-full rounded-xl bg-[var(--accent)] px-4 py-3 text-base font-semibold text-white">
-        Check my invoices
+        {INVOICE_Q}
       </button>
     </form>
   );

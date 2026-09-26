@@ -6,6 +6,7 @@ import { PaperField } from "@/components/PaperField";
 import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
+import { INVOICE_Q } from "@/lib/brand";
 import { checkInvoices } from "@/lib/parseInvoice";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust, tighterTrust } from "@/lib/photoHonesty";
@@ -126,7 +127,7 @@ export function InvoiceCheck() {
           </p>
         ) : null}
         {!reading && !formError && !readError && !ran ? (
-          <ScreenStatus kind="empty">Nothing compared yet. Paste both invoices, then compare.</ScreenStatus>
+          <ScreenStatus kind="empty">{`${INVOICE_Q} Nothing compared yet. Paste both invoices, then compare.`}</ScreenStatus>
         ) : null}
       </div>
       <div className="mt-4 grid gap-2">

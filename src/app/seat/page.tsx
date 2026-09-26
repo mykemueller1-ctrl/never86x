@@ -1,15 +1,10 @@
-import type { Metadata } from "next";
+import { OFFER, PRODUCT, pageMeta } from "@/lib/brand";
 import { PhoneSeat } from "@/components/PhoneSeat";
 
-const title = "History stays on this phone.";
-const description = "No account. Checks run in the browser. Saved cards never leave this phone.";
+const title = PRODUCT;
+const description = `${OFFER} History stays on this phone.`;
 
-export const metadata: Metadata = {
-  title,
-  description,
-  openGraph: { title, description },
-  twitter: { card: "summary_large_image", title, description },
-};
+export const metadata = pageMeta("/seat", title, description);
 
 export default async function SeatPage({
   searchParams,

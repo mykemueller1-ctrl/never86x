@@ -3,8 +3,15 @@
 import Link from "next/link";
 import { useState } from "react";
 import { Honesty } from "@/components/Honesty";
+import { shareUrl } from "@/lib/brand";
 import { presentRows, rowsToCopy, type CheckRow } from "@/lib/honesty";
 import { saveCard, type SavedCard } from "@/lib/history";
+
+const SHARE_PATH = {
+  invoices: "/check/invoices",
+  plate: "/check/menu",
+  labor: "/check/labor",
+} as const;
 
 export function ResultCard({
   headline,
@@ -25,7 +32,7 @@ export function ResultCard({
 }) {
   const shown = presentRows(rows, sample);
   const title = place ? `${place} — ${headline}` : headline;
-  const copyText = rowsToCopy(title, shown, sample);
+  const copyText = rowsToCopy(title, shown, sample, shareUrl(SHARE_PATH[tool]));
   const [copied, setCopied] = useState<"yes" | "show" | null>(null);
   const [kept, setKept] = useState(false);
   const [keepError, setKeepError] = useState<string | null>(null);

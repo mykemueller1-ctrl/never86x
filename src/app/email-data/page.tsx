@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import { INVOICE_Q, pageMeta } from "@/lib/brand";
 
-export const metadata = {
-  title: "Email data",
-  description: "Mailbox connection is not on. Paste a file on the check pages instead.",
-};
+export const metadata = pageMeta(
+  "/email-data",
+  "Email data",
+  "Mailbox connection is not on. Paste a file on the check pages instead.",
+);
 
 export default function EmailDataPage() {
   return (
@@ -18,7 +20,7 @@ export default function EmailDataPage() {
         check. The file stays on the phone.
       </p>
       <Link href="/check/invoices" className="mt-6 inline-block font-semibold text-[var(--accent)]">
-        Check invoices →
+        {INVOICE_Q}
       </Link>
     </div>
   );

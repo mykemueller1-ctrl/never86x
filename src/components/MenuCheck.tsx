@@ -6,6 +6,7 @@ import { PaperField } from "@/components/PaperField";
 import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
+import { PLATE_Q } from "@/lib/brand";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust } from "@/lib/photoHonesty";
 import { checkRecipe } from "@/lib/parseRecipe";
@@ -93,7 +94,7 @@ export function MenuCheck() {
           </p>
         ) : null}
         {!slot.reading && !formError && !readError && !ran ? (
-          <ScreenStatus kind="empty">Nothing costed yet. Paste the recipe, then cost the plate.</ScreenStatus>
+          <ScreenStatus kind="empty">{`${PLATE_Q} Nothing costed yet. Paste the recipe, then cost the plate.`}</ScreenStatus>
         ) : null}
       </div>
       <div className="mt-4 grid gap-2">

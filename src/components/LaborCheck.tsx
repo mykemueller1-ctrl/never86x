@@ -6,6 +6,7 @@ import { PaperField } from "@/components/PaperField";
 import { ResultCard } from "@/components/ResultCard";
 import { ScreenStatus } from "@/components/ScreenStatus";
 import { usePaperSlot } from "@/components/usePaperSlot";
+import { SHIFT_Q } from "@/lib/brand";
 import { loadPlace } from "@/lib/history";
 import { applyPhotoTrust, tighterTrust } from "@/lib/photoHonesty";
 import { checkLabor } from "@/lib/parseLabor";
@@ -122,7 +123,7 @@ export function LaborCheck() {
           </p>
         ) : null}
         {!reading && !formError && !readError && !ran ? (
-          <ScreenStatus kind="empty">Nothing compared yet. Paste the schedule and the clock-outs.</ScreenStatus>
+          <ScreenStatus kind="empty">{`${SHIFT_Q} Nothing compared yet. Paste the schedule and the clock-outs.`}</ScreenStatus>
         ) : null}
       </div>
       <div className="mt-4 grid gap-2">

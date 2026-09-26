@@ -1,36 +1,44 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import {
+  AI_RULE,
+  HEADLINE,
+  INVOICE_Q,
+  METHOD,
+  ONE_SENTENCE,
+  PLATE_Q,
+  PRODUCT,
+  SHIFT_Q,
+  TAGLINE,
+  WHO,
+} from "@/lib/brand";
 import { SAMPLE_MOZZ } from "@/lib/sample";
 
 export default function HomePage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-8">
-      <p className="text-xs font-semibold tracking-widest text-[var(--muted)]">FREE · NO LOGIN</p>
-      <h1 className="mt-3 text-4xl font-bold leading-tight">
-        You run the restaurant. Watch the costs.
-      </h1>
-      <p className="mt-3 text-[var(--muted)]">
-        Paste the papers you already have. Two invoices, one recipe, or the schedule against the
-        clock. Nothing is uploaded.
+      <p className="text-xs font-semibold tracking-widest text-[var(--muted)]">{PRODUCT}</p>
+      <h1 className="mt-3 text-4xl font-bold leading-tight">{HEADLINE}</h1>
+      <p className="mt-3 text-lg">{TAGLINE}</p>
+      <p className="mt-3 text-[var(--muted)]">{ONE_SENTENCE}</p>
+      <p className="mt-2 text-sm text-[var(--muted)]">
+        {METHOD}. For {WHO}.
       </p>
 
       <div className="mt-6 grid gap-3">
         <Link href="/check/invoices" className="rounded-2xl bg-[var(--ink)] p-5 text-white no-underline">
-          <p className="text-xs font-semibold tracking-wide text-white/70">INVOICES</p>
-          <h2 className="mt-1 text-xl font-semibold">Same item. Did the price move?</h2>
-          <p className="mt-2 text-sm text-white/80">Paste two vendor invoices.</p>
-        </Link>
-        <Link href="/check/menu" className="rounded-2xl border border-[var(--line)] p-5 no-underline">
-          <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">PLATE</p>
-          <h2 className="mt-1 text-xl font-semibold">What does this plate cost?</h2>
-          <p className="mt-2 text-sm text-[var(--muted)]">Paste the recipe. Missing prices stay blank.</p>
+          <h2 className="text-xl font-semibold">{INVOICE_Q}</h2>
+          <p className="mt-2 text-sm text-white/80">Paste two vendor invoices. Nothing is uploaded.</p>
         </Link>
         <Link href="/check/labor" className="rounded-2xl border border-[var(--line)] p-5 no-underline">
-          <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">LABOR</p>
-          <h2 className="mt-1 text-xl font-semibold">Who stayed after the schedule?</h2>
+          <h2 className="text-xl font-semibold">{SHIFT_Q}</h2>
           <p className="mt-2 text-sm text-[var(--muted)]">
             Paste the schedule and the clock-outs. No rate, no pay figure.
           </p>
+        </Link>
+        <Link href="/check/menu" className="rounded-2xl border border-[var(--line)] p-5 no-underline">
+          <h2 className="text-xl font-semibold">{PLATE_Q}</h2>
+          <p className="mt-2 text-sm text-[var(--muted)]">Paste the recipe. Missing prices stay blank.</p>
         </Link>
       </div>
 
@@ -56,6 +64,8 @@ export default function HomePage() {
           </Link>
         </div>
       </section>
+
+      <p className="mt-6 text-sm text-[var(--muted)]">{AI_RULE}</p>
     </div>
   );
 }

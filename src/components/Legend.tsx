@@ -1,4 +1,5 @@
 import { Honesty } from "@/components/Honesty";
+import { HONESTY_RULE } from "@/lib/brand";
 
 export function Legend() {
   return (
@@ -15,6 +16,7 @@ export function Legend() {
       <span>
         <Honesty kind="Sample" /> fictional example
       </span>
+      <span className="basis-full text-[var(--muted)]">{HONESTY_RULE}</span>
     </p>
   );
 }

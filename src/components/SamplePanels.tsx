@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q } from "@/lib/brand";
 import {
   SAMPLE_INVOICE_EXTRACT,
   SAMPLE_LABOR,
@@ -27,7 +28,7 @@ export function SampleInvoice() {
   return (
     <article id="invoices" className="rounded-2xl border border-[var(--line)] bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">Same case. An $8 price increase.</h2>
+        <h2 className="text-xl font-semibold">{INVOICE_Q}</h2>
         <Honesty kind="Sample" />
       </div>
       <p className="mt-2 text-sm text-[var(--muted)]">{SAMPLE_MOZZ.label}</p>
@@ -53,7 +54,7 @@ export function SampleLabor() {
   return (
     <article id="labor" className="rounded-2xl border border-[var(--line)] bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">Scheduled until 9. Who stayed until 11?</h2>
+        <h2 className="text-xl font-semibold">{SHIFT_Q}</h2>
         <Honesty kind="Sample" />
       </div>
       <p className="mt-2 text-sm font-medium">
@@ -81,7 +82,7 @@ export function SamplePlate() {
   return (
     <article id="menu" className="rounded-2xl border border-[var(--line)] bg-white p-5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <h2 className="text-xl font-semibold">Every ingredient. One honest plate cost.</h2>
+        <h2 className="text-xl font-semibold">{PLATE_Q}</h2>
         <Honesty kind="Sample" />
       </div>
       <p className="mt-2 font-medium">

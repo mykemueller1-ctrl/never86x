@@ -1,38 +1,29 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import type { Metadata } from "next";
 import { InvoiceCheck } from "@/components/InvoiceCheck";
 import { Legend } from "@/components/Legend";
 import { ScreenStatus } from "@/components/ScreenStatus";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q, TAGLINE, pageMeta } from "@/lib/brand";
 
-const title = "Same cheese. Same case. Different price.";
-const description = "Paste two vendor invoices. See which price moved. Free. No login.";
+const description = `Paste two vendor invoices. Prices are read on this phone. Nothing is uploaded. ${TAGLINE}`;
 
-export const metadata: Metadata = {
-  title,
-  description,
-  openGraph: { title, description },
-  twitter: { card: "summary_large_image", title, description },
-};
+export const metadata = pageMeta("/check/invoices", INVOICE_Q, description);
 
 export default function CheckInvoicesPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">INVOICES · FREE</p>
-      <h1 className="mt-2 text-3xl font-bold leading-tight">{title}</h1>
-      <p className="mt-2 text-[var(--muted)]">
-        Paste the older invoice and the newer one. Prices are read on this phone. Nothing is uploaded.
-      </p>
+      <h1 className="text-3xl font-bold leading-tight">{INVOICE_Q}</h1>
+      <p className="mt-2 text-[var(--muted)]">{description}</p>
       <Legend />
       <Suspense fallback={<ScreenStatus kind="loading">Opening the invoice check…</ScreenStatus>}>
         <InvoiceCheck />
       </Suspense>
       <nav className="mt-8 flex flex-wrap gap-4 text-sm">
-        <Link href="/check/menu" className="text-[var(--accent)]">
-          Plate cost
-        </Link>
         <Link href="/check/labor" className="text-[var(--accent)]">
-          Labor
+          {SHIFT_Q}
+        </Link>
+        <Link href="/check/menu" className="text-[var(--accent)]">
+          {PLATE_Q}
         </Link>
         <Link href="/try/desk" className="text-[var(--accent)]">
           Sample desk

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q, pageMeta } from "@/lib/brand";
 import { SAMPLE_MOZZ } from "@/lib/sample";
 
 const nav = [
@@ -11,10 +12,11 @@ const nav = [
   { href: "/seat?start=actions", label: "Kept cards" },
 ];
 
-export const metadata = {
-  title: "Sample desk",
-  description: "Fictional restaurant. Real math. Your papers are a different page, no login.",
-};
+export const metadata = pageMeta(
+  "/try/desk",
+  "Sample desk",
+  "Fictional restaurant. Real math. Your papers are a different page, no login.",
+);
 
 export default function DeskPage() {
   return (
@@ -38,7 +40,7 @@ export default function DeskPage() {
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
             <p className="text-xs font-semibold tracking-wide text-[var(--accent)]">SAMPLE RESTAURANT</p>
-            <h1 className="text-2xl font-bold">Same case. An $8 price increase.</h1>
+            <h1 className="text-2xl font-bold">{INVOICE_Q}</h1>
           </div>
           <Honesty kind="Sample" />
         </div>
@@ -62,13 +64,13 @@ export default function DeskPage() {
 
         <div className="mt-4 flex flex-wrap gap-2 text-sm">
           <Link href="/check/invoices" className="rounded-full border border-[var(--accent)] px-3 py-2 text-[var(--accent)]">
-            What changed on my invoices?
+            {INVOICE_Q}
           </Link>
           <Link href="/try/labor" className="rounded-full border border-[var(--line)] px-3 py-2">
-            Did hours go over the plan?
+            {SHIFT_Q}
           </Link>
           <Link href="/try/recipes" className="rounded-full border border-[var(--line)] px-3 py-2">
-            What does this plate cost?
+            {PLATE_Q}
           </Link>
         </div>
         <p className="mt-4 text-sm text-[var(--muted)]">

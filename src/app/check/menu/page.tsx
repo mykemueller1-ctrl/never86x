@@ -1,38 +1,29 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import type { Metadata } from "next";
 import { Legend } from "@/components/Legend";
 import { MenuCheck } from "@/components/MenuCheck";
 import { ScreenStatus } from "@/components/ScreenStatus";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q, TAGLINE, pageMeta } from "@/lib/brand";
 
-const title = "Every ingredient. One honest plate cost.";
-const description = "Paste a recipe. See the plate cost. Free. No login.";
+const description = `Paste the recipe card. A missing price stays blank. Nothing is uploaded. ${TAGLINE}`;
 
-export const metadata: Metadata = {
-  title,
-  description,
-  openGraph: { title, description },
-  twitter: { card: "summary_large_image", title, description },
-};
+export const metadata = pageMeta("/check/menu", PLATE_Q, description);
 
 export default function CheckMenuPage() {
   return (
     <div className="mx-auto max-w-lg px-4 py-6">
-      <p className="text-xs font-semibold tracking-wide text-[var(--muted)]">PLATE · FREE</p>
-      <h1 className="mt-2 text-3xl font-bold leading-tight">{title}</h1>
-      <p className="mt-2 text-[var(--muted)]">
-        Paste the recipe card. A missing price stays blank. Nothing is uploaded.
-      </p>
+      <h1 className="text-3xl font-bold leading-tight">{PLATE_Q}</h1>
+      <p className="mt-2 text-[var(--muted)]">{description}</p>
       <Legend />
       <Suspense fallback={<ScreenStatus kind="loading">Opening the plate check…</ScreenStatus>}>
         <MenuCheck />
       </Suspense>
       <nav className="mt-8 flex flex-wrap gap-4 text-sm">
         <Link href="/check/invoices" className="text-[var(--accent)]">
-          Invoices
+          {INVOICE_Q}
         </Link>
         <Link href="/check/labor" className="text-[var(--accent)]">
-          Labor
+          {SHIFT_Q}
         </Link>
         <Link href="/try/recipes" className="text-[var(--accent)]">
           Sample plate
