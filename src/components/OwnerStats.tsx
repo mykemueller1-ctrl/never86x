@@ -97,7 +97,9 @@ export function OwnerStats({ googleConfigured = false }: { googleConfigured?: bo
           </p>
           <p className="mt-2 text-sm text-[#5c564e]">
             Read a row as a step. The percent is how many of the people in the step above reached this one. A Missing
-            percent means the step above has not happened yet.
+            percent means the step above has not happened yet. Opening the link counts once per person per half hour.
+            Asking for a sign-in link counts once per email and network every 15 minutes. The counts stay in the same
+            database as the signups.
           </p>
         </div>
 
@@ -198,7 +200,7 @@ function BoardView({ board }: { board: Board }) {
                     </p>
                   ) : (
                     <p className="text-[#5c564e]">
-                      {step.percent}% of the {step.from} in the step above.
+                      {step.percent}% of the step above.
                     </p>
                   )}
                 </li>
