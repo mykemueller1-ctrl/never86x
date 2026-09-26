@@ -8,7 +8,7 @@ export const metadata = pageMeta("/seat", SHARE_TITLE, SHARE_DESCRIPTION);
 export default function SeatPage() {
   return (
     <Suspense fallback={<ScreenStatus kind="loading">Opening One Seat…</ScreenStatus>}>
-      <OneSeat />
+      <OneSeat googleConfigured={Boolean(process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID)} />
     </Suspense>
   );
 }

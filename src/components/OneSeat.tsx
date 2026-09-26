@@ -41,7 +41,7 @@ function draftHasText(draft: SeatDraft) {
   return [draft.earlier, draft.later, draft.recipe, draft.schedule, draft.clock].some((value) => value.trim());
 }
 
-export function OneSeat() {
+export function OneSeat({ googleConfigured = false }: { googleConfigured?: boolean }) {
   const params = useSearchParams();
   const router = useRouter();
   const [loginOpen, setLoginOpen] = useState(false);
@@ -234,6 +234,7 @@ export function OneSeat() {
         embedded={embedded}
         source={source}
         notice={notice}
+        googleConfigured={googleConfigured}
         onClose={() => setLoginOpen(false)}
         onSignedIn={(next) => {
           setEmail(next);

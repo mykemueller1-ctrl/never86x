@@ -14,6 +14,8 @@ export function SeatLogin({
   notice,
   onClose,
   onSignedIn,
+  asPage = false,
+  googleConfigured = false,
 }: {
   open: boolean;
   embedded: boolean;
@@ -21,6 +23,8 @@ export function SeatLogin({
   notice: string | null;
   onClose: () => void;
   onSignedIn: (email: string) => void;
+  asPage?: boolean;
+  googleConfigured?: boolean;
 }) {
   const [email, setEmail] = useState("");
   const [consent, setConsent] = useState(false);
@@ -30,7 +34,7 @@ export function SeatLogin({
   const [busy, setBusy] = useState(false);
   const google = showGoogleSignIn(
     typeof navigator === "undefined" ? "" : navigator.userAgent,
-    process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+    googleConfigured ? "on" : "",
   );
 
   useEffect(() => {
@@ -43,7 +47,7 @@ export function SeatLogin({
     if (field instanceof HTMLInputElement) field.focus();
   }, [open]);
 
-  if (!open) return null;
+  if (!open && !asPage) return null;
 
   async function sendLink(event: React.FormEvent) {
     event.preventDefault();
@@ -89,20 +93,25 @@ export function SeatLogin({
     onSignedIn(String(body.email || email));
   }
 
-  return (
-    <div className="fixed inset-0 z-30 flex items-end justify-center bg-black/40 p-3 sm:items-center" role="presentation">
+  const form = (
       <div
-        role="dialog"
-        aria-modal="true"
+        role={asPage ? undefined : "dialog"}
+        aria-modal={asPage ? undefined : true}
         aria-labelledby="seat-login-title"
-        className="w-full max-w-md rounded-2xl bg-white p-4 shadow-lg"
+        className={asPage ? "w-full" : "w-full max-w-md rounded-2xl bg-white p-4 shadow-lg"}
       >
-        <div className="flex items-start justify-between gap-3">
-          <h2 id="seat-login-title" className="text-xl font-bold">Save this seat</h2>
-          <button type="button" className="text-sm underline" onClick={onClose}>
-            Close
-          </button>
-        </div>
+        {asPage ? (
+          <h2 id="seat-login-title" className="text-xl font-bold">
+            One email
+          </h2>
+        ) : (
+          <div className="flex items-start justify-between gap-3">
+            <h2 id="seat-login-title" className="text-xl font-bold">Save this seat</h2>
+            <button type="button" className="text-sm underline" onClick={onClose}>
+              Close
+            </button>
+          </div>
+        )}
         <p className="mt-2 text-sm text-[var(--muted)]">
           One email. The seat stays free. No card. No POS connection. No approval wait.
         </p>
@@ -180,6 +189,13 @@ export function SeatLogin({
           </p>
         ) : null}
       </div>
+  );
+
+  if (asPage) return form;
+
+  return (
+    <div className="fixed inset-0 z-30 flex items-end justify-center bg-black/40 p-3 sm:items-center" role="presentation">
+      {form}
     </div>
   );
 }

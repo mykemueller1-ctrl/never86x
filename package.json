@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint",
     "postinstall": "node scripts/copy-pdf-worker.mjs && node scripts/copy-tesseract.mjs",
-    "test": "node --test test/*.test.mjs && tsx --test test/*.test.ts",
+    "test": "node --test test/*.test.mjs && tsx --tsconfig tsconfig.test.json --test test/*.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
