@@ -30,12 +30,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
         <header className="border-b border-[var(--line)]">
           <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
             <Link href="/" className="text-sm font-extrabold tracking-wide no-underline">
               NEVER86
             </Link>
-            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+            <nav aria-label="Checks" className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
               <Link href="/check/invoices">Invoices</Link>
               <Link href="/check/menu">Plate</Link>
               <Link href="/check/labor">Labor</Link>
@@ -45,9 +48,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </nav>
           </div>
         </header>
-        <main>{children}</main>
+        <main id="main">{children}</main>
         <footer className="mt-16 border-t border-[var(--line)]">
-          <div className="mx-auto flex max-w-5xl flex-wrap gap-x-4 gap-y-2 px-4 py-6 text-sm text-[var(--muted)]">
+          <nav aria-label="More" className="mx-auto flex max-w-5xl flex-wrap gap-x-4 gap-y-2 px-4 py-6 text-sm text-[var(--muted)]">
             <Link href="/try/desk">Sample desk</Link>
             <Link href="/try/watch">Walkthrough</Link>
             <Link href="/pricing">Pricing</Link>
@@ -59,7 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Link href="/terms">Terms</Link>
             <Link href="/email-data">Email data</Link>
             <span>Free. Papers stay on this phone.</span>
-          </div>
+          </nav>
         </footer>
       </body>
     </html>

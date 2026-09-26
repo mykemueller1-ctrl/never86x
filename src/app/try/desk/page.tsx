@@ -72,8 +72,8 @@ export default function DeskPage() {
           </Link>
         </div>
         <p className="mt-4 text-sm text-[var(--muted)]">
-          A photo needs typing. PDF text and pasted lines are read on your phone. We do not read
-          pictures, and we do not send the file anywhere.
+          A photo is read on this phone. A blurry read is flagged and is not a price. PDF text and
+          pasted lines are read here. The file is not uploaded.
         </p>
       </section>
 

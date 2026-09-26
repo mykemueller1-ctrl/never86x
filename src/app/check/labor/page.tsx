@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { LaborCheck } from "@/components/LaborCheck";
 import { Legend } from "@/components/Legend";
+import { ScreenStatus } from "@/components/ScreenStatus";
 
 const title = "Scheduled until 9. Who stayed until 11?";
 const description = "Paste the schedule and the clock-outs. See the drift. Free. No login.";
@@ -23,7 +24,7 @@ export default function CheckLaborPage() {
         Paste who was scheduled and who clocked out. No hourly rate means no pay figure. Nothing is uploaded.
       </p>
       <Legend />
-      <Suspense fallback={<p className="mt-6 text-sm">Opening the check…</p>}>
+      <Suspense fallback={<ScreenStatus kind="loading">Opening the labor check…</ScreenStatus>}>
         <LaborCheck />
       </Suspense>
       <nav className="mt-8 flex flex-wrap gap-4 text-sm">

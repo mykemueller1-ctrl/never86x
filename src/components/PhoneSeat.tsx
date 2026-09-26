@@ -3,7 +3,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Honesty } from "@/components/Honesty";
-import { clearCards, loadCards, loadPlace, removeCard, savePlace, type SavedCard } from "@/lib/history";
+import { ScreenStatus } from "@/components/ScreenStatus";
+import { clearCards, readHistory, removeCard, savePlace, type SavedCard } from "@/lib/history";
 
 const TOOL_HREF = {
   invoices: "/check/invoices",
@@ -15,10 +16,14 @@ export function PhoneSeat({ start }: { start: string }) {
   const [cards, setCards] = useState<SavedCard[]>([]);
   const [place, setPlace] = useState("");
   const [ready, setReady] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [savedName, setSavedName] = useState(false);
 
   useEffect(() => {
-    setCards(loadCards());
-    setPlace(loadPlace());
+    const history = readHistory();
+    setCards(history.cards);
+    setPlace(history.place);
+    setError(history.error);
     setReady(true);
   }, []);
 
@@ -38,7 +43,9 @@ export function PhoneSeat({ start }: { start: string }) {
         className="mt-5"
         onSubmit={(event) => {
           event.preventDefault();
-          savePlace(place);
+          const saveError = savePlace(place);
+          setError(saveError);
+          setSavedName(!saveError);
         }}
       >
         <label className="block text-sm font-medium" htmlFor="place-name">
@@ -54,6 +61,11 @@ export function PhoneSeat({ start }: { start: string }) {
         <button type="submit" className="mt-2 rounded-xl bg-[var(--ink)] px-4 py-3 text-base font-semibold text-white">
           Save the name here
         </button>
+        {savedName ? (
+          <p role="status" className="mt-2 text-sm">
+            Name saved on this phone.
+          </p>
+        ) : null}
       </form>
 
       <div className="mt-6 grid gap-2 text-base font-semibold">
@@ -71,12 +83,14 @@ export function PhoneSeat({ start }: { start: string }) {
       <section className="mt-8">
         <div className="flex items-center justify-between gap-2">
           <h2 className="text-lg font-semibold">{start === "data" ? "What's missing" : "Kept on this phone"}</h2>
-          {ready && cards.length === 0 ? <Honesty kind="Missing" /> : null}
+          {ready && !error && cards.length === 0 ? <Honesty kind="Missing" /> : null}
         </div>
-        {ready && cards.length === 0 ? (
-          <p className="mt-2 text-sm text-[var(--muted)]">
+        {!ready ? <ScreenStatus kind="loading">Opening cards saved on this phone…</ScreenStatus> : null}
+        {ready && error ? <ScreenStatus kind="error">{error}</ScreenStatus> : null}
+        {ready && !error && cards.length === 0 ? (
+          <ScreenStatus kind="empty">
             No cards yet. Run a check, then tap Keep on this phone. The sample desk is separate.
-          </p>
+          </ScreenStatus>
         ) : null}
         <ul className="mt-3 space-y-3">
           {cards.map((card) => (
@@ -91,7 +105,14 @@ export function PhoneSeat({ start }: { start: string }) {
                 <button
                   type="button"
                   className="underline"
-                  onClick={() => setCards(removeAnd(card.id))}
+                  onClick={() => {
+                    const removeError = removeCard(card.id);
+                    if (removeError) {
+                      setError(removeError);
+                      return;
+                    }
+                    setCards(readHistory().cards);
+                  }}
                 >
                   Remove
                 </button>
@@ -104,7 +125,11 @@ export function PhoneSeat({ start }: { start: string }) {
             type="button"
             className="mt-4 text-sm underline"
             onClick={() => {
-              clearCards();
+              const clearError = clearCards();
+              if (clearError) {
+                setError(clearError);
+                return;
+              }
               setCards([]);
             }}
           >
@@ -120,9 +145,4 @@ export function PhoneSeat({ start }: { start: string }) {
       </p>
     </div>
   );
-}
-
-function removeAnd(id: string): SavedCard[] {
-  removeCard(id);
-  return loadCards();
 }

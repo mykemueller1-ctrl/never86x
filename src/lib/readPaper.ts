@@ -1,40 +1,60 @@
 "use client";
 
+import type { PhotoTrust } from "./photoHonesty";
+
+export type PaperSource = "text" | "pdf" | "photo";
+
 export type PaperRead = {
   text: string;
   notice: string;
+  source: PaperSource;
+  trust: PhotoTrust | null;
+  error: string | null;
 };
 
-const PHOTO =
-  "This photo stayed on this phone. Type the lines. We don't read pictures, so we won't guess a price.";
+function plain(text: string, notice: string, source: PaperSource): PaperRead {
+  return { text, notice, source, trust: null, error: null };
+}
 
-export async function readPaper(file: File): Promise<PaperRead> {
+function failed(error: string, source: PaperSource): PaperRead {
+  return { text: "", notice: "", source, trust: null, error };
+}
+
+export function isPhotoFile(file: { type: string; name: string }): boolean {
   const name = file.name.toLowerCase();
-  if (file.type.startsWith("image/") || /\.(png|jpe?g|gif|webp|heic|heif)$/.test(name)) {
-    return { text: "", notice: PHOTO };
+  return file.type.startsWith("image/") || /\.(png|jpe?g|gif|webp|heic|heif)$/.test(name);
+}
+
+export async function readPaper(
+  file: File,
+  onStatus?: (message: string) => void,
+): Promise<PaperRead> {
+  if (isPhotoFile(file)) {
+    const { readPhoto } = await import("./readPhoto");
+    return readPhoto(file, onStatus);
   }
 
-  if (file.type === "application/pdf" || name.endsWith(".pdf")) {
+  if (file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")) {
     try {
       const text = await pdfText(file);
       if (!text.trim()) {
-        return {
-          text: "",
-          notice:
-            "That PDF has no text we can read. It may be a picture of a page. Type the lines. The file was not uploaded.",
-        };
+        return failed(
+          "That PDF has no text we can read. It may be a picture of a page. Type the lines. The file was not uploaded.",
+          "pdf",
+        );
       }
-      return { text, notice: "Read the PDF text on this phone. The file was not uploaded." };
+      return plain(text, "Read the PDF text on this phone. The file was not uploaded.", "pdf");
     } catch {
-      return {
-        text: "",
-        notice: "Couldn't read that PDF here. Paste the text. The file was not uploaded.",
-      };
+      return failed("Couldn't read that PDF here. Paste the text. The file was not uploaded.", "pdf");
     }
   }
 
-  const text = await file.text();
-  return { text, notice: "Read the file on this phone. It was not uploaded." };
+  try {
+    const text = await file.text();
+    return plain(text, "Read the file on this phone. It was not uploaded.", "text");
+  } catch {
+    return failed("Couldn't read that file. Paste the text. Nothing was uploaded.", "text");
+  }
 }
 
 async function pdfText(file: File): Promise<string> {

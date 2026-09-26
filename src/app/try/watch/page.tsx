@@ -18,11 +18,13 @@ export default function TryWatchPage() {
         controls
         playsInline
         preload="metadata"
+        aria-label="Walkthrough film with fictional invoices. This film has no captions."
         className="mt-6 aspect-video w-full rounded-2xl bg-black"
         src="https://app.never86.app/media/never86-landscape-v24.mp4"
       >
         <a href="https://app.never86.app/media/never86-landscape-v24.mp4">Watch the walkthrough film</a>
       </video>
+      <p className="mt-2 text-sm text-[var(--muted)]">This film has no captions. The checks are text.</p>
       <p className="mt-2 text-sm">
         <a href="https://app.never86.app/media/never86-landscape-v24.mp4" className="text-[var(--accent)]">
           Open the film

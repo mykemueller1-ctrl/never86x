@@ -59,7 +59,14 @@ test("signed-out checks read the owner's papers on the phone", () => {
   assert.equal(joined.includes("signin-with-chatgpt"), false);
   assert.equal(existsSync("src/components/SignInToSave.tsx"), false);
   assert.match(joined, /Nothing is uploaded/);
-  assert.match(joined, /We don't read pictures/);
+  assert.match(readFileSync("src/lib/readPhoto.ts", "utf8"), /import\("tesseract\.js"\)/);
+  assert.match(readFileSync("src/components/InvoiceCheck.tsx", "utf8"), /Nothing compared yet/);
+  assert.match(readFileSync("src/components/MenuCheck.tsx", "utf8"), /Nothing costed yet/);
+  assert.match(readFileSync("src/components/LaborCheck.tsx", "utf8"), /Nothing compared yet/);
+  assert.match(readFileSync("src/components/PhoneSeat.tsx", "utf8"), /No cards yet/);
+  assert.equal(existsSync("src/app/loading.tsx"), true);
+  assert.equal(existsSync("src/app/error.tsx"), true);
+  assert.equal(existsSync("src/app/not-found.tsx"), true);
   assert.match(readFileSync("src/app/try/watch/page.tsx", "utf8"), /href="\/check\/invoices"/);
   assert.match(readFileSync("src/app/try/recipes/page.tsx", "utf8"), /href="\/check\/menu"/);
   assert.match(readFileSync("src/app/layout.tsx", "utf8"), /summary_large_image/);

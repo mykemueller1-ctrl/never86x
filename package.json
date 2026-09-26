@@ -7,15 +7,16 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "postinstall": "node scripts/copy-pdf-worker.mjs",
-    "test": "node --test test/*.test.mjs && tsx --test test/parsers.test.ts",
+    "postinstall": "node scripts/copy-pdf-worker.mjs && node scripts/copy-tesseract.mjs",
+    "test": "node --test test/*.test.mjs && tsx --test test/*.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "15.5.26",
     "pdfjs-dist": "^6.3.289",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

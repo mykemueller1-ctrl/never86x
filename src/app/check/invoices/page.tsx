@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { InvoiceCheck } from "@/components/InvoiceCheck";
 import { Legend } from "@/components/Legend";
+import { ScreenStatus } from "@/components/ScreenStatus";
 
 const title = "Same cheese. Same case. Different price.";
 const description = "Paste two vendor invoices. See which price moved. Free. No login.";
@@ -23,7 +24,7 @@ export default function CheckInvoicesPage() {
         Paste the older invoice and the newer one. Prices are read on this phone. Nothing is uploaded.
       </p>
       <Legend />
-      <Suspense fallback={<p className="mt-6 text-sm">Opening the check…</p>}>
+      <Suspense fallback={<ScreenStatus kind="loading">Opening the invoice check…</ScreenStatus>}>
         <InvoiceCheck />
       </Suspense>
       <nav className="mt-8 flex flex-wrap gap-4 text-sm">

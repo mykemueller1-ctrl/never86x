@@ -43,3 +43,6 @@ next-env.d.ts
 # copied from pdfjs-dist on install; not source
 public/pdf.worker.min.mjs
 public/pdfjs/
+
+# copied from tesseract.js on install; not source
+public/tesseract/

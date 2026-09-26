@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { Legend } from "@/components/Legend";
 import { MenuCheck } from "@/components/MenuCheck";
+import { ScreenStatus } from "@/components/ScreenStatus";
 
 const title = "Every ingredient. One honest plate cost.";
 const description = "Paste a recipe. See the plate cost. Free. No login.";
@@ -23,7 +24,7 @@ export default function CheckMenuPage() {
         Paste the recipe card. A missing price stays blank. Nothing is uploaded.
       </p>
       <Legend />
-      <Suspense fallback={<p className="mt-6 text-sm">Opening the check…</p>}>
+      <Suspense fallback={<ScreenStatus kind="loading">Opening the plate check…</ScreenStatus>}>
         <MenuCheck />
       </Suspense>
       <nav className="mt-8 flex flex-wrap gap-4 text-sm">
