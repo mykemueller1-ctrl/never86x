@@ -8,8 +8,7 @@ export default function TryLaborPage() {
       <Honesty kind="Sample" />
       <h1 className="text-3xl font-bold">Scheduled until 9. Who stayed until 11?</h1>
       <p className="text-[var(--muted)]">
-        Start with the schedule you already use. Fictional staff. Real uploads stay
-        behind the on-page save card.
+        Fictional staff. Paste your own schedule on the labor check. No login. Nothing is uploaded.
       </p>
       <SampleLabor />
       <div className="flex flex-wrap gap-4 text-sm">

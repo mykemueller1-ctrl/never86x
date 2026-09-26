@@ -2,10 +2,28 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Link from "next/link";
 
+const site =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000");
+
 export const metadata: Metadata = {
-  title: "Never86 X — Action Shift",
+  metadataBase: new URL(site),
+  title: {
+    default: "Never86 — free cost checks",
+    template: "%s · Never86",
+  },
   description:
-    "One Seat for independent restaurant operators. Verified / Estimated / Missing. Never invent dollars.",
+    "Paste invoices, a recipe, or the schedule. Free. No login. Papers stay on the phone.",
+  openGraph: {
+    title: "You run the restaurant. Watch the costs.",
+    description: "Free. No login. Papers stay on the phone.",
+    siteName: "Never86",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "You run the restaurant. Watch the costs.",
+    description: "Free. No login. Papers stay on the phone.",
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -13,42 +31,34 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         <header className="border-b border-[var(--line)]">
-          <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-            <Link href="/" className="flex items-baseline gap-2 no-underline">
-              <span className="text-sm font-extrabold tracking-wide">NEVER86 X</span>
-              <span className="text-xs font-medium tracking-wide text-[var(--muted)]">
-                ACTION SHIFT
-              </span>
+          <div className="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+            <Link href="/" className="text-sm font-extrabold tracking-wide no-underline">
+              NEVER86
             </Link>
-            <nav className="flex items-center gap-4 text-sm">
-              <Link href="/try" className="text-[var(--muted)] hover:text-[var(--ink)]">
-                Try
-              </Link>
-              <Link href="/pricing" className="text-[var(--muted)] hover:text-[var(--ink)]">
-                Pricing
-              </Link>
-              <Link href="/onboarding" className="text-[var(--muted)] hover:text-[var(--ink)]">
-                Start
-              </Link>
-              <Link
-                href="/seat"
-                className="rounded-full bg-[var(--ink)] px-3 py-1.5 text-white hover:opacity-90"
-              >
-                Sign in
+            <nav className="flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+              <Link href="/check/invoices">Invoices</Link>
+              <Link href="/check/menu">Plate</Link>
+              <Link href="/check/labor">Labor</Link>
+              <Link href="/seat" className="rounded-full bg-[var(--ink)] px-3 py-1.5 text-white">
+                This phone
               </Link>
             </nav>
           </div>
         </header>
         <main>{children}</main>
         <footer className="mt-16 border-t border-[var(--line)]">
-          <div className="mx-auto flex max-w-5xl flex-wrap gap-4 px-4 py-6 text-sm text-[var(--muted)]">
+          <div className="mx-auto flex max-w-5xl flex-wrap gap-x-4 gap-y-2 px-4 py-6 text-sm text-[var(--muted)]">
+            <Link href="/try/desk">Sample desk</Link>
+            <Link href="/try/watch">Walkthrough</Link>
+            <Link href="/pricing">Pricing</Link>
+            <Link href="/onboarding">Start</Link>
             <Link href="/contact">Talk to Myke</Link>
             <Link href="/support">Support</Link>
             <Link href="/status">Status</Link>
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
             <Link href="/email-data">Email data</Link>
-            <span className="ml-auto">First owner seat free · No invented $</span>
+            <span>Free. Papers stay on this phone.</span>
           </div>
         </footer>
       </body>

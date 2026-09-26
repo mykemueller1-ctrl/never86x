@@ -19,7 +19,7 @@ export default function TryRecipesPage() {
         </Link>
       </div>
       <p className="text-xs text-[var(--muted)]">
-        Sample prices never enter a private seat until you choose Save on this page.
+        These prices are the fictional sample. Your recipe stays on the plate check, on this phone.
       </p>
     </div>
   );

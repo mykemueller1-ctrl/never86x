@@ -4,9 +4,10 @@ import { Honesty } from "@/components/Honesty";
 export const metadata = { title: "Onboarding — Never86 X" };
 
 const steps = [
-  { n: 1, title: "Pick up the sample ticket", href: "/try", note: "Feel the rail in under 10 minutes." },
-  { n: 2, title: "Snap a real invoice (when camera is live)", href: "/check/invoices", note: "Camera path is documented; live OCR needs keys." },
-  { n: 3, title: "Claim your free owner seat", href: "/seat", note: "Auth is Missing until provider keys land — seat page explains." },
+  { n: 1, title: "Paste two invoices", href: "/check/invoices", note: "See which price moved. No account." },
+  { n: 2, title: "Paste one recipe", href: "/check/menu", note: "Plate cost only from prices on the card." },
+  { n: 3, title: "Paste the schedule and the clock", href: "/check/labor", note: "No rate on the paper, no pay figure." },
+  { n: 4, title: "Keep a card on this phone", href: "/seat", note: "Optional. History stays in this browser." },
 ];
 
 export default function OnboardingPage() {

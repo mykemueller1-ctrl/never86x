@@ -8,9 +8,9 @@ export const SAMPLE_MOZZ = {
 };
 
 /**
- * Labor hours from the public sample walkthrough.
- * Straight-time dollars are the published sample total.
- * Itemized rates are not on the sample schedule, so they stay Missing.
+ * Labor hours from the public sample walkthrough (screen map: Alex and Jordan,
+ * unpaid break, $20/h and $18/h). Straight-time difference is math on those
+ * rates: +2 h × $20 and −0.5 h × $18 = $31. Not a guessed payroll number.
  */
 export const SAMPLE_LABOR = {
   honesty: "Sample" as const,
@@ -23,7 +23,8 @@ export const SAMPLE_LABOR = {
   fewerHours: 0.5,
   netHours: 1.5,
   straightTimeDollars: 31,
-  ratesHonesty: "Missing" as const,
+  alexRate: 20,
+  jordanRate: 18,
 };
 
 /** Plate cost from the public sample recipe card. */
@@ -74,3 +75,33 @@ export const SAMPLE_INVOICE_EXTRACT = {
   },
   railPrompt: "Looks right? One tap to Verified.",
 };
+
+/** Fictional papers the free tools can paste. Same published figures as above. */
+export const SAMPLE_INVOICE_EARLIER = `Vendor: Sample Foods
+Date: 2026-09-04
+Mozzarella cheese whole milk 20 lb case $48.00
+`;
+
+export const SAMPLE_INVOICE_LATER = `Vendor: Sample Foods
+Date: 2026-09-18
+Mozzarella cheese whole milk 20 lb case $56.00
+`;
+
+export const SAMPLE_RECIPE_PASTE = `House cheese pizza | sell $16.00
+Whole milk mozzarella — $1.40
+Prepared dough ball — $1.50
+Prepared sauce — $0.70
+Oil and seasoning — $0.40
+`;
+
+export const SAMPLE_SCHEDULE_PASTE = `Alex in 4:00pm out 9:00pm break 30 rate 20
+Jordan in 5:00pm out 9:00pm break 0 rate 18
+`;
+
+export const SAMPLE_CLOCK_PASTE = `Alex in 4:00pm out 11:00pm break 30
+Jordan in 5:00pm out 8:30pm break 0
+`;
+
+export function papersMatch(a: string, b: string): boolean {
+  return a.replace(/\s+/g, " ").trim() === b.replace(/\s+/g, " ").trim();
+}

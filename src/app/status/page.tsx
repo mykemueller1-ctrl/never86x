@@ -15,7 +15,11 @@ export default function StatusPage() {
           <Honesty kind="Estimated" />
         </li>
         <li className="flex items-center justify-between rounded-xl border border-[var(--line)] px-4 py-3">
-          <span>Auth / private seat</span>
+          <span>Invoice, plate, and labor checks on this phone</span>
+          <Honesty kind="Verified" />
+        </li>
+        <li className="flex items-center justify-between rounded-xl border border-[var(--line)] px-4 py-3">
+          <span>Account to sync phones</span>
           <Honesty kind="Missing" />
         </li>
         <li className="flex items-center justify-between rounded-xl border border-[var(--line)] px-4 py-3">

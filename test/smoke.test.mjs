@@ -36,7 +36,7 @@ test("honesty component exposes required labels", () => {
   assert.match(src, /Sample/);
 });
 
-test("signed-out doors stay on-site in sample mode", () => {
+test("signed-out checks read the owner's papers on the phone", () => {
   const files = [
     "src/app/page.tsx",
     "src/app/try/page.tsx",
@@ -48,14 +48,19 @@ test("signed-out doors stay on-site in sample mode", () => {
     "src/app/check/menu/page.tsx",
     "src/app/check/labor/page.tsx",
     "src/app/seat/page.tsx",
-    "src/components/SignInToSave.tsx",
+    "src/components/InvoiceCheck.tsx",
+    "src/components/MenuCheck.tsx",
+    "src/components/LaborCheck.tsx",
     "src/components/SamplePanels.tsx",
+    "src/lib/readPaper.ts",
   ];
   const joined = files.map((p) => readFileSync(p, "utf8")).join("\n");
   assert.equal(joined.includes("auth.openai.com"), false);
   assert.equal(joined.includes("signin-with-chatgpt"), false);
-  assert.match(joined, /Sample mode/);
-  assert.match(joined, /Sign in to save your own invoices, free, no card/);
+  assert.equal(existsSync("src/components/SignInToSave.tsx"), false);
+  assert.match(joined, /Nothing is uploaded/);
+  assert.match(joined, /We don't read pictures/);
   assert.match(readFileSync("src/app/try/watch/page.tsx", "utf8"), /href="\/check\/invoices"/);
   assert.match(readFileSync("src/app/try/recipes/page.tsx", "utf8"), /href="\/check\/menu"/);
+  assert.match(readFileSync("src/app/layout.tsx", "utf8"), /summary_large_image/);
 });

@@ -1,37 +1,47 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
 
+export const metadata = {
+  title: "Watch the walkthrough",
+  description: "One invoice. One answer. Then paste your own papers. No login.",
+};
+
 export default function TryWatchPage() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10">
+    <div className="mx-auto max-w-lg px-4 py-8">
       <Honesty kind="Sample" />
-      <h1 className="mt-3 text-3xl font-bold">See One Seat in action</h1>
+      <h1 className="mt-3 text-3xl font-bold">See the sample, then use your papers.</h1>
       <p className="mt-2 text-[var(--muted)]">
-        One invoice. One useful answer. Actual product screens · Fictional sample documents.
+        The film uses fictional invoices. Your files are not in it.
       </p>
-      <div className="mt-6 flex aspect-video items-center justify-center rounded-2xl bg-[var(--ink)] px-6 text-center text-white">
-        Walkthrough film plays on the live site. The checks below stay in Sample mode.
-      </div>
+      <video
+        controls
+        playsInline
+        preload="metadata"
+        className="mt-6 aspect-video w-full rounded-2xl bg-black"
+        src="https://app.never86.app/media/never86-landscape-v24.mp4"
+      >
+        <a href="https://app.never86.app/media/never86-landscape-v24.mp4">Watch the walkthrough film</a>
+      </video>
+      <p className="mt-2 text-sm">
+        <a href="https://app.never86.app/media/never86-landscape-v24.mp4" className="text-[var(--accent)]">
+          Open the film
+        </a>
+      </p>
       <div className="mt-4 flex flex-wrap gap-4 text-sm">
         <Link href="/check/invoices" className="font-semibold text-[var(--accent)]">
-          Check my invoices →
+          Check my invoices
         </Link>
         <Link href="/check/menu" className="font-semibold text-[var(--accent)]">
-          Use my recipe card →
+          Cost a plate
         </Link>
-        <Link href="/try/labor" className="underline">
-          Try the labor example →
-        </Link>
-        <Link href="/try/recipes" className="underline">
-          Try the recipe example →
+        <Link href="/check/labor" className="underline">
+          Check labor
         </Link>
         <Link href="/try" className="underline">
-          Try the sample first
+          Sample first
         </Link>
       </div>
-      <p className="mt-4 text-xs text-[var(--muted)]">
-        Signed-out checks open the fictional sample on this site. No outside login.
-      </p>
     </div>
   );
 }

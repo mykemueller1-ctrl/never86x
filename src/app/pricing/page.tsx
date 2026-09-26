@@ -21,9 +21,9 @@ export default function PricingPage() {
             <h2 className="text-xl font-semibold">Owner seat</h2>
             <Honesty kind="Verified" />
           </div>
-          <p className="mt-2 text-3xl font-bold">$0</p>
+          <p className="mt-2 text-3xl font-bold">Free</p>
           <p className="mt-2 text-sm text-[var(--muted)]">
-            Ticket rail, sample desk, honesty labels, camera ingest path (docs). Forever free for seat 1.
+            Invoice, plate, and labor checks on this phone. No account. No card.
           </p>
           <Link href="/onboarding" className="mt-4 inline-block font-semibold text-[var(--accent)]">
             Start onboarding →
@@ -39,14 +39,9 @@ export default function PricingPage() {
           <p className="mt-2 text-sm text-[var(--muted)]">
             Checkout is fail-closed until Stripe keys land. No fake price. No fake &quot;buy&quot; button that charges.
           </p>
-          <form action="/api/billing/checkout" method="post" className="mt-4">
-            <button
-              type="submit"
-              className="rounded-lg bg-[var(--ink)] px-4 py-2 text-sm font-semibold text-white"
-            >
-              Attempt checkout (will 503 without Stripe)
-            </button>
-          </form>
+          <Link href="/status" className="mt-4 inline-block font-semibold text-[var(--accent)]">
+            Paid checkout is not on
+          </Link>
         </section>
       </div>
 

@@ -16,7 +16,7 @@ export default function TermsPage() {
           <strong>Honesty labels.</strong> Numbers marked Verified come from your papers or systems we can cite. Estimated is math or public reference. Missing means we do not have it — we will not invent dollars.
         </p>
         <p>
-          <strong>Your data.</strong> You own invoices, schedules, and recipes you upload. We process them to run the rail. See Privacy.
+          <strong>Your data.</strong> You own the invoices, schedules, and recipes you paste. On this free link they are read in your browser and are not uploaded. See Privacy.
         </p>
         <p>
           <strong>Free seat.</strong> Seat 1 is free. Paid seats require a separate checkout when offered. No charge without your action.
