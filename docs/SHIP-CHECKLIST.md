@@ -11,7 +11,7 @@ Done means an HTTP check against that host on this pass. A route that only exist
 
 - [x] Health — https://never86x.vercel.app/api/health returned 200 `{"ok":true,"service":"never86x","auth":"missing","stripe":"missing","sentry":"missing","database":"missing"}`.
 - [x] Home — https://never86x.vercel.app/ returned 200. Copy includes “YOU’RE ON THE PASS” and the free-seat line versus Restaurant365.
-- [x] Pricing — https://never86x.vercel.app/pricing returned 200.
+- [x] Pricing page is up — https://never86x.vercel.app/pricing returned 200 on `2cd449f`. That live HTML still prints `$0` for seat 1. This branch replaces that figure with the word Free. Paid seats stay TBD. No new dollar amount.
 - [x] Terms — https://never86x.vercel.app/terms returned 200.
 - [x] Privacy — https://never86x.vercel.app/privacy returned 200.
 - [x] Status page — https://never86x.vercel.app/status returned 200. It is a manual board (app Estimated, auth Missing, Stripe Missing). The health row’s Verified badge is static copy, not an uptime probe.

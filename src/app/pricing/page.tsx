@@ -21,7 +21,7 @@ export default function PricingPage() {
             <h2 className="text-xl font-semibold">Owner seat</h2>
             <Honesty kind="Verified" />
           </div>
-          <p className="mt-2 text-3xl font-bold">$0</p>
+          <p className="mt-2 text-3xl font-bold">Free</p>
           <p className="mt-2 text-sm text-[var(--muted)]">
             Ticket rail, sample desk, honesty labels, camera ingest path (docs). Forever free for seat 1.
           </p>
