@@ -7,13 +7,17 @@
     "build": "next build --turbopack",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --test test/smoke.test.mjs",
+    "postinstall": "node scripts/copy-pdf-worker.mjs && node scripts/copy-tesseract.mjs",
+    "test": "node --test test/*.test.mjs && tsx --tsconfig tsconfig.test.json --test test/*.test.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
     "next": "15.5.26",
+    "pdfjs-dist": "^6.3.289",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "tesseract.js": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -24,6 +28,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.5.26",
     "tailwindcss": "^4",
+    "tsx": "^4.23.15",
     "typescript": "^5"
   }
 }

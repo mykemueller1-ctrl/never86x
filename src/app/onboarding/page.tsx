@@ -1,19 +1,21 @@
 import Link from "next/link";
-import { Honesty } from "@/components/Honesty";
+import { INVOICE_Q, OFFER, PLATE_Q, PRODUCT, SHIFT_Q, pageMeta } from "@/lib/brand";
 
-export const metadata = { title: "Onboarding — Never86 X" };
+export const metadata = pageMeta("/onboarding", "Start", `${OFFER}`);
 
 const steps = [
-  { n: 1, title: "Pick up the sample ticket", href: "/try", note: "Feel the rail in under 10 minutes." },
-  { n: 2, title: "Snap a real invoice (when camera is live)", href: "/check/invoices", note: "Camera path is documented; live OCR needs keys." },
-  { n: 3, title: "Claim your free owner seat", href: "/seat", note: "Auth is Missing until provider keys land — seat page explains." },
+  { n: 1, title: INVOICE_Q, href: "/check/invoices", note: "Paste two invoices. No account." },
+  { n: 2, title: SHIFT_Q, href: "/check/labor", note: "Paste the schedule and the clock. No rate, no pay figure." },
+  { n: 3, title: PLATE_Q, href: "/check/menu", note: "Paste one recipe. A missing price stays blank." },
+  { n: 4, title: PRODUCT, href: "/seat", note: "Optional. A kept card stays in this browser." },
 ];
 
 export default function OnboardingPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
-      <p className="text-xs font-semibold tracking-widest text-[var(--muted)]">FIRST TEN MINUTES</p>
-      <h1 className="mt-2 text-3xl font-bold">Onboarding without ceremony</h1>
+      <p className="text-xs font-semibold tracking-widest text-[var(--muted)]">{PRODUCT}</p>
+      <h1 className="mt-2 text-3xl font-bold">Start with last week&apos;s papers.</h1>
+      <p className="mt-3 text-[var(--muted)]">{OFFER}</p>
       <ol className="mt-8 space-y-4">
         {steps.map((s) => (
           <li key={s.n} className="rounded-2xl border border-[var(--line)] p-5">
@@ -27,10 +29,6 @@ export default function OnboardingPage() {
           </li>
         ))}
       </ol>
-      <p className="mt-6 flex flex-wrap items-center gap-2 text-sm">
-        Auth provider: <Honesty kind="Missing" /> · Stripe: <Honesty kind="Missing" /> · Sample desk:{" "}
-        <Honesty kind="Verified" />
-      </p>
     </div>
   );
 }

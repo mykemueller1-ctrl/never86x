@@ -17,8 +17,8 @@ Never86’d · Action Shift · One Seat · First owner seat free · No card · N
 | `/try/watch` | Walkthrough video | How-to | Live |
 | `/contact` | Talk to Myke | Lifecycle / help | Live form |
 | `/privacy` `/email-data` | Honesty docs | Same | Live |
-| `/seat` (+ start=data/actions) | Private workspace | External Never86 X login | Pending (today = OpenAI wall) |
-| `/check/*` | Private checks | Papers → One Seat | Pending auth; upload on DRAFT PR #259 |
+| `/seat` (+ start=data/actions) | Sample owner seat for signed-out visitors | `/seat` Sample mode | Opens without sign-in. Save/upload shows an in-page card. |
+| `/check/*` | Invoice, labor, plate checks | `/check/invoices` `/check/labor` `/check/menu` | Sample mode, no sign-in redirect |
 
 ## Owner desk nav (copy 1:1)
 Owner desk · Invoice prices · Labor & schedules · Menu & plate cost · What’s missing · My actions

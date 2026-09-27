@@ -1,28 +1,44 @@
 import Link from "next/link";
 import { Honesty } from "@/components/Honesty";
+import { INVOICE_Q, PLATE_Q, SHIFT_Q, pageMeta } from "@/lib/brand";
+
+export const metadata = pageMeta(
+  "/try/watch",
+  "Watch the walkthrough",
+  "One invoice. One answer. Then paste your own papers. No login.",
+);
 
 export default function TryWatchPage() {
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10">
+    <div className="mx-auto max-w-lg px-4 py-8">
       <Honesty kind="Sample" />
-      <h1 className="mt-3 text-3xl font-bold">See One Seat in action</h1>
+      <h1 className="mt-3 text-3xl font-bold">See the sample, then use your papers.</h1>
       <p className="mt-2 text-[var(--muted)]">
-        One invoice. One useful answer. Actual product screens · Fictional sample documents.
+        The film uses fictional invoices. Your files are not in it.
       </p>
-      <div className="mt-6 flex aspect-video items-center justify-center rounded-2xl bg-[var(--ink)] text-white">
-        Walkthrough placeholder · open app.never86.app/try/watch for live film
-      </div>
-      <div className="mt-4 flex gap-3 text-sm">
-        <Link href="/try/desk" className="font-semibold text-[var(--accent)]">
-          Check my invoices →
+      <video
+        controls
+        playsInline
+        preload="metadata"
+        aria-label="Walkthrough film with fictional invoices. This film has no captions."
+        className="mt-6 aspect-video w-full rounded-2xl bg-black"
+        src="https://app.never86.app/media/never86-landscape-v24.mp4"
+      />
+      <p className="mt-2 text-sm text-[var(--muted)]">This film has no captions. The checks are text.</p>
+      <div className="mt-4 flex flex-wrap gap-4 text-sm">
+        <Link href="/check/invoices" className="font-semibold text-[var(--accent)]">
+          {INVOICE_Q}
+        </Link>
+        <Link href="/check/labor" className="underline">
+          {SHIFT_Q}
+        </Link>
+        <Link href="/check/menu" className="font-semibold text-[var(--accent)]">
+          {PLATE_Q}
         </Link>
         <Link href="/try" className="underline">
-          Try the sample first
+          Sample first
         </Link>
       </div>
-      <p className="mt-4 text-xs text-[var(--muted)]">
-        Public demo stays inside Never86. No OpenAI sign-in is required to explore the sample.
-      </p>
     </div>
   );
 }
