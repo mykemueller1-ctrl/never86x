@@ -9,6 +9,7 @@ import { AI_RULE, BRAND, METHOD, OFFER, SHARE_LINE } from "@/lib/brand";
 import { isEmbeddedWebview } from "@/lib/embedded";
 import { trackSeat } from "@/lib/track";
 import { formatDelta, formatMoney } from "@/lib/money";
+import { readHistory, removeCard, type SavedCard } from "@/lib/history";
 import {
   PRAIRIE_EARLIER,
   PRAIRIE_LABOR,
@@ -42,6 +43,9 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
   const [email, setEmail] = useState<string | null>(null);
   const [embedded, setEmbedded] = useState(false);
   const [ownerLink, setOwnerLink] = useState(false);
+  const [savedCards, setSavedCards] = useState<SavedCard[]>([]);
+  const [place, setPlace] = useState("");
+  const [historyError, setHistoryError] = useState<string | null>(null);
   const source = params.get("utm_source") || params.get("ref") || "x";
 
   useEffect(() => {
@@ -56,6 +60,10 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
 
   useEffect(() => {
     setEmbedded(isEmbeddedWebview(navigator.userAgent));
+    const saved = readHistory();
+    setSavedCards(saved.cards);
+    setPlace(saved.place);
+    setHistoryError(saved.error);
     let ignore = false;
     fetch("/api/auth/session")
       .then((response) => response.json())
@@ -73,6 +81,12 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
       ignore = true;
     };
   }, []);
+
+  function forgetCard(id: string) {
+    const error = removeCard(id);
+    if (error) setHistoryError(error);
+    else setSavedCards((cards) => cards.filter((card) => card.id !== id));
+  }
 
   function openView(next: View) {
     const query = new URLSearchParams(params.toString());
@@ -127,9 +141,7 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
         </div>
         <label className="mx-3 block rounded-lg border border-white/10 px-3 py-2 text-sm">
           <span className="sr-only">Restaurant</span>
-          <select className="w-full bg-transparent text-sm" defaultValue="demo" aria-label="Restaurant">
-            <option value="demo">Demo Restaurant</option>
-          </select>
+          <span className="block text-sm">{place || "This phone"}</span>
         </label>
         <nav className="mt-4 flex-1 overflow-y-auto px-2 text-sm" aria-label="Owner seat">
           <NavButton current={view} id="desk" onOpen={openView}>
@@ -186,10 +198,10 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
             Menu
           </button>
           <p className="text-sm text-[#5c564e]">
-            {BRAND} <span className="text-[#b7aea4]">|</span> Demo Restaurant
+            {BRAND} <span className="text-[#b7aea4]">|</span> {place || "This phone"}
           </p>
           <p className="ml-auto text-xs text-[#6b645c]">
-            {view === "invoices" ? "Invoices through 09/23/2026" : "Week containing 09/23/2026"}
+            Fictional sample: week containing 09/23/2026
           </p>
           <Link
             href="/check/invoices"
@@ -201,6 +213,7 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
 
         <div className="grid gap-4 px-4 py-4 xl:grid-cols-[minmax(0,1fr)_280px]">
           <div className="min-w-0">
+            {savedCards.length ? <SavedChecks cards={savedCards} onRemove={forgetCard} /> : null}
             <p className="text-[11px] font-semibold tracking-[0.14em] text-[var(--accent)]">
               FICTIONAL TEST DATA · NOT A REAL BUSINESS RECORD
             </p>
@@ -238,7 +251,7 @@ export function SeatDesk({ googleConfigured = false }: { googleConfigured?: bool
             {view === "recipes" ? <EmptyPanel title="No recipe card is in this sample." /> : null}
             {view === "guides" ? <EmptyPanel title="No order guide is in this sample." /> : null}
 
-            {historyOpen ? <History /> : null}
+            {historyOpen ? <History cards={savedCards} error={historyError} onRemove={forgetCard} /> : null}
 
             <section id="save-seat" className="mt-6 rounded-2xl border border-[#e4ddd4] bg-white p-4">
               <h2 className="text-xl font-bold">Save this seat</h2>
@@ -365,7 +378,7 @@ function Desk({
           <button type="submit" className="rounded-lg bg-[var(--accent)] px-4 py-3 text-sm font-semibold text-white">
             Ask Never86&apos;d
           </button>
-          <p className="text-sm text-[#5c564e]">Using this week&apos;s reports</p>
+          <p className="text-sm text-[#5c564e]">This desk only has fictional sample papers.</p>
         </div>
         <p className="mt-3 text-sm text-[#5c564e]">{AI_RULE}</p>
         {asked && !question.trim() ? (
@@ -375,9 +388,8 @@ function Desk({
         ) : null}
         {asked && question.trim() && lead ? (
           <p className="mt-3 rounded-xl bg-[#f7f4ef] px-3 py-3 text-sm" role="status">
-            {lead.description} is {formatMoney(lead.unitDelta)} a case higher. At {lead.laterQty} cases, that is{" "}
-            {formatMoney(lead.atLaterQty)} more on the later delivery.{" "}
-            <Honesty kind="Estimated" />
+            I can only show the sample invoice check here: {lead.description} is {formatMoney(lead.unitDelta)} a case higher. At {lead.laterQty} cases, that is{" "}
+            {formatMoney(lead.atLaterQty)} more on the fictional later delivery. <Honesty kind="Sample" />
           </p>
         ) : null}
       </form>
@@ -569,19 +581,35 @@ function EmptyPanel({ title, href, label }: { title: string; href?: string; labe
   );
 }
 
-function History() {
+function SavedChecks({ cards, onRemove }: { cards: SavedCard[]; onRemove: (id: string) => void }) {
+  return (
+    <section className="mt-4 rounded-2xl border border-[#e4ddd4] bg-white p-4">
+      <h2 className="text-lg font-bold">Checks kept on this phone</h2>
+      <p className="mt-1 text-sm text-[#5c564e]">Your saved cards stay in this browser. They are separate from the fictional sample below.</p>
+      <ul className="mt-3 grid gap-3">
+        {cards.map((card) => (
+          <li key={card.id} className="rounded-xl border border-[#e4ddd4] p-3">
+            <p className="font-semibold">{card.title}</p>
+            <p className="text-xs text-[#5c564e]">{card.tool} · {new Date(card.at).toLocaleString()}</p>
+            <details className="mt-2 text-sm"><summary>Read saved check</summary><pre className="mt-2 whitespace-pre-wrap break-words font-sans">{card.text}</pre></details>
+            <button type="button" className="mt-2 text-sm text-[var(--accent)]" onClick={() => onRemove(card.id)}>Remove from this phone</button>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function History({ cards, error }: { cards: SavedCard[]; error: string | null; onRemove: (id: string) => void }) {
   return (
     <section className="mt-4 rounded-2xl border border-[#e4ddd4] bg-white p-4 text-sm">
-      <h2 className="font-bold">On this phone</h2>
+      <h2 className="font-bold">Private restaurant history on this phone</h2>
+      {error ? <p role="alert" className="mt-2">{error}</p> : null}
+      {cards.length ? <p className="mt-2">{cards.length} saved check{cards.length === 1 ? "" : "s"} shown at the top of your desk.</p> : <p className="mt-2">No checks kept here yet. Run a check and tap “Keep on this phone.”</p>}
+      <p className="mt-3 font-semibold">Fictional sample papers</p>
       <ul className="mt-2 grid gap-2">
-        <li>
-          {PRAIRIE_EARLIER.number} · {PRAIRIE_EARLIER.date} · {formatMoney(PRAIRIE_EARLIER.total)}{" "}
-          <Honesty kind="Sample" />
-        </li>
-        <li>
-          {PRAIRIE_LATER.number} · {PRAIRIE_LATER.date} · {formatMoney(PRAIRIE_LATER.total)}{" "}
-          <Honesty kind="Sample" />
-        </li>
+        <li>{PRAIRIE_EARLIER.number} · {PRAIRIE_EARLIER.date} · {formatMoney(PRAIRIE_EARLIER.total)} <Honesty kind="Sample" /></li>
+        <li>{PRAIRIE_LATER.number} · {PRAIRIE_LATER.date} · {formatMoney(PRAIRIE_LATER.total)} <Honesty kind="Sample" /></li>
       </ul>
     </section>
   );
